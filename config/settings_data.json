@@ -279,8 +279,7 @@
       ".ctabtn.mb20,.wishlist-icon {display: flex; align-items: space-between;}",
       ".mb15 {margin-bottom: 15px; margin-right: 20px;}",
       ".ctabtn.mb20-parent {/* Replace this with the actual parent class if available */ display: flex; align-items: space-evenly;}",
-      ".swatchLbl.color {border: 1px solid #9e9c9c;}",
-      "/* Phones & tablets: make header solid and stop hover effects */@media (hover: none), (pointer: coarse), (max-width: 768px) {header.main_hdr, .header--transparent, .trnsprt {background: #fff !important; /* or your hover bg */ opacity: 1 !important; backdrop-filter: none !important; box-shadow: 0 1px 0 rgba(0,0,0,.08); /* optional: same as hover */ } /* Ensure logo/links use the “hover” (dark) color on mobile */ header.main_hdr a, header.main_hdr .header-logo, .header--transparent a {color: #111 !important; /* match your hover color */ fill: #111 !important; } /* Kill transitions that cause flicker on scroll/tap */ header.main_hdr, .header--transparent {transition: none !important; }}"
+      ".swatchLbl.color {border: 1px solid #9e9c9c;}"
     ]
   }
 }
