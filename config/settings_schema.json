@@ -12,7 +12,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Thank you so much for choosing Revone! You just made our business grow. We hope you like and enjoy using Revone. Please check theme [documentation](https://www.adornthemes.com/knowledge-base/revone/) for helpful setup instructions. If you have any questions or need help, please submit a [support ticket](http:\/\/adornthemes.com\/support\/). We’ll respond as quickly as we can. Your suggestions are welcom!"
+        "content": "Thank you so much for choosing Revone! You just made our business grow. We hope you like and enjoy using Revone. Please check theme [documentation](https://www.adornthemes.com/knowledge-base/revone/) for helpful setup instructions. If you have any questions or need help, please submit a [support ticket](http:\/\/adornthemes.com\/support\/). We'll respond as quickly as we can. Your suggestions are welcom!"
       },
       {
         "type": "paragraph",
@@ -3853,8 +3853,8 @@
         "type": "textarea",
         "id": "sizeOpt",
         "label": "Variant option name to trigger sizechart link",
-        "default": "Size, Dimension, Taille, Velikost, Talla, Taglia",
-        "info": "[guide](https:\/\/www.adornthemes.com\/knowledge-base\/size-chart-trigger\/)"
+        "default": "Size, Dimension, Taille, Velikost, Talla, Taglia, Digital, A3, A4",
+        "info": "[guide](https://www.adornthemes.com/knowledge-base/size-chart-trigger/)"
       },
       {
         "type": "select",
@@ -4582,11 +4582,11 @@
       },
       {
         "type": "paragraph",
-        "content": "[Vitals: Reviews, Bundles, AI ](https:\/\/vitals.app\/shopify\/12345289) -  improve your store’s conversion rates. 40-day Free Trial"
+        "content": "[Vitals: Reviews, Bundles, AI ](https:\/\/vitals.app\/shopify\/12345289) -  improve your store's conversion rates. 40-day Free Trial"
       },
       {
         "type": "paragraph",
-        "content": "[Appstle Subscriptions App ](https:\/\/subscription-admin.appstle.com\/affiliates?fpr=adorn) -  Provides Shopify’s most powerful and customizable subscription features"
+        "content": "[Appstle Subscriptions App ](https:\/\/subscription-admin.appstle.com\/affiliates?fpr=adorn) -  Provides Shopify's most powerful and customizable subscription features"
       },
       {
         "type": "paragraph",

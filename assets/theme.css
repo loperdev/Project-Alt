@@ -1,4 +1,3 @@
-
 .placeholder-svg { display:block; fill:rgba(68, 68, 68, 0.2); background-color:#f4f4f4; width:100%; height:100%; max-width:100%; max-height:100%; opacity:0.8; }
 .placeholder-noblocks { padding:40px; text-align:center }
 .ph_bg { position:absolute; top:0; right:0; bottom:0; left:0 }
@@ -1259,6 +1258,56 @@ details[open] .arw { transform:rotate(180deg); }
 }
 
 .frame-swatch:hover {
+  border-color: #999;
+  background: #f0f0f0;
+}
+
+/* Orientation swatch styling */
+.orientation-swatch {
+  padding: 8px 16px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  margin: 2px;
+  text-transform: capitalize;
+}
+
+.orientation-option:checked + .orientation-swatch {
+  border-color: #28a745;
+  background: #d4edda;
+  color: #155724;
+  font-weight: 600;
+}
+
+.orientation-swatch:hover {
+  border-color: #999;
+  background: #f0f0f0;
+}
+
+/* Size swatch styling */
+.size-swatch {
+  padding: 8px 16px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  margin: 2px;
+  font-weight: 500;
+}
+
+.size-option:checked + .size-swatch {
+  border-color: #ffc107;
+  background: #fff3cd;
+  color: #856404;
+  font-weight: 600;
+}
+
+.size-swatch:hover {
   border-color: #999;
   background: #f0f0f0;
 }
