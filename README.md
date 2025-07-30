@@ -1,4 +1,4 @@
-# CharteLines - Shopify Theme
+# Project Alt - Shopify Theme
 
 A modern, responsive Shopify theme built with Liquid templating language.
 
@@ -18,7 +18,7 @@ A modern, responsive Shopify theme built with Liquid templating language.
 ## Structure
 
 ```
-CharteLines/
+Project-Alt/
 ├── assets/          # CSS, JS, images, and other static files
 ├── blocks/          # Shopify section blocks
 ├── config/          # Theme configuration files
