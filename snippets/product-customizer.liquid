@@ -1,0 +1,1441 @@
+<!-- Customise & Order Button -->
+<div style="margin-bottom: 15px; position: relative; z-index: 1000;">
+  <button type="button" id="openCustomizerBtn" style="
+    display: inline-block;
+    background-color: #f3c623;
+    text-align: center;
+    color: #000;
+    font-weight: 600;
+    border: none;
+    padding: 12px 28px;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1001;
+  ">
+    ✨ Customise & Order
+  </button>
+</div>
+
+<!-- Enhanced Modal with Loading States -->
+<div id="customizerFullscreenWrapper" style="
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999999;
+  background: #000000;
+  backdrop-filter: blur(10px);
+">
+
+  <!-- Loading State -->
+  <div id="customizerLoading" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 1000000001;
+  ">
+    <div style="
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid #f3c623;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    "></div>
+    <p style="margin: 0; font-size: 16px;">Loading your customizer...</p>
+  </div>
+
+  <!-- Iframe Container -->
+  <iframe
+    id="customizerIframe"
+    style="
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      border: none; 
+      z-index: 999999998;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    "
+    src=""
+    allow="camera; microphone; geolocation">
+  </iframe>
+</div>
+
+<style>
+  /* Enhanced Modal Styles - Fixed for Large Screens */
+  #customizerFullscreenWrapper {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-width: 100vw !important;
+    min-height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    z-index: 999999999 !important;
+    background: #000000 !important; /* Solid black instead of transparent */
+    overflow: hidden !important;
+    backdrop-filter: blur(10px);
+  }
+
+  #customizerIframe {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-width: 100vw !important;
+    min-height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    border: none !important;
+    z-index: 999999998 !important;
+    overflow: hidden !important;
+    transform: scale(1) !important;
+    transform-origin: top left !important;
+  }
+
+  /* Mobile optimizations for iframe */
+  @media (max-width: 768px) {
+    #customizerIframe {
+      height: 100vh !important;
+      height: 100dvh !important; /* Dynamic viewport height for mobile */
+      min-height: 100vh !important;
+      min-height: 100dvh !important;
+      max-height: 100vh !important;
+      max-height: 100dvh !important;
+    }
+    
+    #customizerFullscreenWrapper {
+      height: 100vh !important;
+      height: 100dvh !important; /* Dynamic viewport height for mobile */
+      min-height: 100vh !important;
+      min-height: 100dvh !important;
+      max-height: 100vh !important;
+      max-height: 100dvh !important;
+    }
+  }
+
+  /* Loading animation */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Button loading state */
+  #openCustomizerBtn.loading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  #openCustomizerBtn.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid #000;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  /* Hide Shopify's automatic variant color display */
+  .cart_meta-text,
+  .variant-option,
+  .product-option,
+  [class*="variant"][class*="color"],
+  [class*="option"][class*="color"] {
+    display: none !important;
+  }
+
+  /* Hide any text that contains "Color:" */
+  .cart-item__details *:has-text("Color:"),
+  .product-option *:has-text("Color:") {
+    display: none !important;
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    #customizerLoading p {
+      font-size: 14px;
+    }
+  }
+
+  /* Prevent scrolling when modal is open - ENHANCED for Large Screens */
+  body.modal-open {
+    overflow: hidden !important;
+    position: fixed !important;
+    width: 100% !important;
+    height: 100% !important;
+    /* NEW: Prevent refresh gestures */
+    overscroll-behavior: none !important;
+    touch-action: none !important;
+    /* NEW: Hide scrollbars completely */
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; /* IE/Edge */
+  }
+
+  /* Hide scrollbars for WebKit browsers */
+  body.modal-open::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  /* NEW: Force hide all content behind modal */
+  body.modal-open > *:not(#customizerFullscreenWrapper) {
+    visibility: hidden !important;
+  }
+
+  /* NEW: Ensure modal wrapper is always visible */
+  body.modal-open #customizerFullscreenWrapper {
+    visibility: visible !important;
+  }
+
+  /* Hide headers when modal is open */
+  body.modal-open header,
+  body.modal-open .header,
+  body.modal-open .site-header,
+  body.modal-open .main-header,
+  body.modal-open [class*="header"],
+  body.modal-open .sticky-header,
+  body.modal-open .announcement-bar,
+  body.modal-open nav,
+  body.modal-open .navigation {
+    display: none !important;
+  }
+</style>
+
+<script>
+  // Enhanced configuration with better error handling
+  const customizerConfig = {
+    productId: {{ product.id }},
+    productHandle: "{{ product.handle }}",
+    selectedVariant: {{ product.selected_or_first_available_variant | json }},
+    defaultVariantId: {{ product.selected_or_first_available_variant.id | default: product.variants[0].id }},
+    shopDomain: "{{ shop.permanent_domain }}",
+    allVariants: {
+      {% for variant in product.variants %}
+        {{ variant.id }}: {
+          id: {{ variant.id }},
+          title: "{{ variant.title | escape }}",
+          price: {{ variant.price }},
+          available: {{ variant.available | json }},
+          option1: "{{ variant.option1 | escape }}",
+          option2: "{{ variant.option2 | escape }}",
+          option3: "{{ variant.option3 | escape }}"
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    }
+  };
+
+  // Enhanced state management
+  const customizerState = {
+    isOpen: false,
+    isLoading: false,
+    sessionActive: false,
+    orderProcessed: false,
+    retryCount: 0,
+    maxRetries: 3
+  };
+
+  /**
+   * ENHANCED PRESET CALCULATION - MAP STYLE + FRAME COLOR
+   */
+  function calculatePresetForVariant(variant) {
+    const productTitle = "{{ product.title | downcase }}";
+    const productId = {{ product.id }};
+    
+    // Get all variant options to check for frame and color
+    const option1 = variant?.option1?.toLowerCase() || '';
+    const option2 = variant?.option2?.toLowerCase() || '';
+    const option3 = variant?.option3?.toLowerCase() || '';
+    
+    // Determine frame type and color
+    let frameType = '';
+    let frameColor = '';
+    let isFrameless = false;
+    
+    // Check each option for frame and color indicators
+    [option1, option2, option3].forEach(option => {
+      // Check for frame type
+      if (option.includes('framed') || option.includes('frame')) {
+        frameType = option;
+      }
+      // Check for frameless indicators
+      if (option.includes('unframed') || option.includes('frameless') || option.includes('no frame')) {
+        isFrameless = true;
+        frameType = option;
+      }
+      // Check for color (if not frameless)
+      if (!isFrameless && (option.includes('black') || option.includes('white') || 
+          option.includes('brown') || option.includes('blue') || option.includes('grey') || 
+          option.includes('gray') || option.includes('gold') || option.includes('silver'))) {
+        frameColor = option;
+      }
+    });
+    
+    // Only log if variant actually changed
+    if (!window.lastLoggedVariantId || window.lastLoggedVariantId !== variant?.id) {
+      console.log('🎨 Calculating preset for variant:', variant?.id, {frameType, frameColor, isFrameless});
+      console.log('🏷️ Product title:', productTitle);
+      console.log('🆔 Product ID:', productId);
+      console.log('🔍 All options:', {option1, option2, option3});
+      window.lastLoggedVariantId = variant?.id;
+    }
+    
+    const preset = {};
+    
+    // 1. DETERMINE MAP STYLE (based on product title/type)
+
+    // 1. DETERMINE MAP STYLE (based on product title/type)
+    const titleToMapStyleMap = {
+      'royal horizon memory map': 'purple',             // Twilight Bloom
+      'coastal horizon memory map': 'blueWhite',        // Seabreeze  
+      'digital coral voyage map': 'pink',               // Blush Tide
+      'monochrome nautical journey map': 'monochrome',  // Midnight Sail
+      'golden sail memory map': 'yellow',               // Golden Sail ✅
+      'harbor twilight memory map': 'blue1',            // Harbour Twilight
+      'harbour twilight memory map': 'blue1',           // Harbour Twilight
+      'midnight sail memory map': 'monochrome',         // Midnight Sail
+      'classic ocean passage map': 'streets',           // Retro Grid
+      'blush horizon memory map': 'pink',               // Blush Tide
+      'sage coastline memory map': 'sage',              // Sage Coastline ✅
+      'sunset voyage memory map': 'yellow',             // Golden Sail
+      'ocean depths memory map': 'blue1',               // Harbour Twilight
+      'sandstone voyage memory map': 'beige',           // Sand Dune ✅
+      // NEW MAP STYLES - Added 4 more
+      'explorer memory map': 'topo',                    // Explorer ✅
+      'ink & ice memory map': 'backdrop',               // Ink & Ice ✅
+      'classic dark memory map': 'streetsDark'          // Classic Dark ✅
+    };
+
+    // Check for exact title match first
+    if (titleToMapStyleMap[productTitle]) {
+      preset.mapStyle = titleToMapStyleMap[productTitle];
+      if (!window.lastLoggedMapStyle || window.lastLoggedMapStyle !== preset.mapStyle) {
+        console.log(`🎯 Found mapStyle: ${preset.mapStyle}`);
+        window.lastLoggedMapStyle = preset.mapStyle;
+      }
+    } else {
+      // Fallback: Check by keywords in title
+      const keywordToMapStyleMap = {
+        'blush': 'pink',           // Blush Tide
+        'coral': 'pink',           // Blush Tide  
+        'sage': 'sage',            // Sage Coastline ✅
+        'golden': 'yellow',        // Golden Sail ✅
+        'midnight': 'monochrome',  // Midnight Sail ✅
+        'monochrome': 'monochrome', // Midnight Sail ✅
+        'twilight': 'blue1',       // Harbour Twilight ✅
+        'harbor': 'blue1',         // Harbour Twilight ✅
+        'harbour': 'blue1',        // Harbour Twilight ✅
+        'royal': 'purple',         // Twilight Bloom ✅
+        'sandstone': 'beige',      // Sand Dune ✅
+        'sunset': 'yellow',        // Golden Sail ✅
+        'classic': 'streets',      // Retro Grid ✅
+        'coastal': 'blueWhite',    // Seabreeze
+        'horizon': 'blueWhite',    // Seabreeze
+        'depths': 'blue1',         // Harbour Twilight ✅
+        'voyage': 'beige',         // Sand Dune (for voyage maps)
+        'digital': 'topo',         // Explorer (if available)
+        // NEW KEYWORDS - Added for 4 new map styles
+        'explorer': 'topo',        // Explorer ✅
+        'expedition': 'topo',      // Explorer (alternative)
+        'adventure': 'topo',       // Explorer (alternative)
+        'ink': 'backdrop',         // Ink & Ice ✅
+        'ice': 'backdrop',         // Ink & Ice ✅
+        'backdrop': 'backdrop',    // Ink & Ice (direct)
+        'dark': 'streetsDark'      // Classic Dark ✅
+      };
+
+      // Check by keywords
+      for (const [keyword, mapStyle] of Object.entries(keywordToMapStyleMap)) {
+        if (productTitle.includes(keyword) || customizerConfig.productHandle.includes(keyword)) {
+          preset.mapStyle = mapStyle;
+          if (!window.lastLoggedMapStyle || window.lastLoggedMapStyle !== preset.mapStyle) {
+            console.log(`🎯 Found mapStyle: ${preset.mapStyle}`);
+            window.lastLoggedMapStyle = preset.mapStyle;
+          }
+          break;
+        }
+      }
+
+      // Check by specific product IDs (fallback)
+      if (!preset.mapStyle) {
+        const productIdMapStyles = {
+          15042030436729: 'skyBlue',    
+          15039533482361: 'skyBlue',      
+          15040780108153: 'streets',    
+          15040784630137: 'winter',     
+          15063936631161: 'yellow'
+        };
+
+        if (productIdMapStyles[productId]) {
+          preset.mapStyle = productIdMapStyles[productId];
+          if (!window.lastLoggedMapStyle || window.lastLoggedMapStyle !== preset.mapStyle) {
+            console.log(`🎯 Found mapStyle: ${preset.mapStyle}`);
+            window.lastLoggedMapStyle = preset.mapStyle;
+          }
+        }
+      }
+    }
+
+    // 2. DETERMINE FRAME COLOR (based on selected variant and frame type)
+    if (isFrameless) {
+      // If frameless/unframed is selected, set frame to None
+      preset.frame = 'None';
+      if (!window.lastLoggedFrame || window.lastLoggedFrame !== preset.frame) {
+        console.log(`🖼️ Frameless selected: ${preset.frame}`);
+        window.lastLoggedFrame = preset.frame;
+      }
+    } else if (frameColor) {
+      // Map frame color names to Angular app values (capitalized)
+      const frameColorMap = {
+        'black': 'Black',      // ✅ Exact match
+        'white': 'White',      // ✅ Exact match
+        'grey': 'Gray',        // ✅ Exact match
+        'gray': 'Gray',        // ✅ Exact match
+        'blue': 'Blue',        // ✅ Exact match
+        'navy': 'Blue',        // Navy variant -> Blue frame
+        'brown': 'Brown',      // ✅ Changed to exact match
+        'walnut': 'Brown',     // Wood variants -> Brown frame
+        'oak': 'Brown',
+        'mahogany': 'Brown',
+        'cherry': 'Brown',
+        'maple': 'Brown',
+        'pine': 'Brown',
+        'bamboo': 'Brown',
+        'canvas': 'Brown',     // Canvas -> Brown
+        'gold': 'Brown',       // Gold/metallic -> Brown
+        'silver': 'Gray',      // Silver -> Gray
+        'bronze': 'Brown'      // Bronze -> Brown
+      };
+
+      if (frameColorMap[frameColor]) {
+        preset.frame = frameColorMap[frameColor];  // Use 'frame' property name
+        if (!window.lastLoggedFrame || window.lastLoggedFrame !== preset.frame) {
+          console.log(`🖼️ Found frame color: ${preset.frame}`);
+          window.lastLoggedFrame = preset.frame;
+        }
+      } else {
+        // Default frame color if not mapped
+        preset.frame = 'Black';
+      }
+    } else if (frameType && frameType.includes('framed')) {
+      // If we detected "framed" but no specific color, default to Black
+      preset.frame = 'Black';
+      console.log(`🖼️ Default frame for framed variant: ${preset.frame}`);
+    }
+
+    // Only return preset if we have actual data (mapStyle OR frame variants exist)
+    const hasMapStyle = !!preset.mapStyle;
+    const hasFrameVariants = !!(frameType || frameColor || isFrameless);
+    
+    console.log('🔍 Detection results:', {
+      frameType, 
+      frameColor, 
+      isFrameless, 
+      hasMapStyle, 
+      hasFrameVariants,
+      'preset.mapStyle': preset.mapStyle,
+      'preset.frame': preset.frame
+    });
+    
+    if (hasMapStyle || hasFrameVariants) {
+      if (!window.lastLoggedPreset || JSON.stringify(window.lastLoggedPreset) !== JSON.stringify(preset)) {
+        console.log('✅ Final preset:', preset, {hasMapStyle, hasFrameVariants});
+        window.lastLoggedPreset = preset;
+      }
+      return preset;
+    }
+    
+    // No preset data - product should open normally without locked fields
+    console.log('🔓 No preset data found - customizer will open unlocked');
+    return null;
+  }
+
+  // Calculate initial preset
+  const productDefaultPreset = calculatePresetForVariant(customizerConfig.selectedVariant);
+
+  /**
+   * ENHANCED VARIANT CHANGE DETECTION - Force re-detection
+   */
+  function setupVariantChangeListeners() {
+    if (window.variantListenersSetup) {
+      console.log('⚠️ Variant listeners already set up, skipping');
+      return;
+    }
+    
+    console.log('🔧 Setting up variant change listeners...');
+    window.variantListenersSetup = true;
+
+    let lastProcessedVariantId = null;
+
+    // Method 1: Modern themes - Custom Events
+    document.addEventListener('variant:change', function(evt) {
+      if (evt.detail && evt.detail.variant) {
+        handleVariantChange(evt.detail.variant, 'variant:change');
+      }
+    });
+
+    // Method 2: Input Change Detection with debouncing
+    const variantInput = document.querySelector('input[name="id"]');
+    if (variantInput) {
+      variantInput.addEventListener('change', function(e) {
+        const variantId = e.target.value;
+        if (variantId && variantId !== lastProcessedVariantId) {
+          lastProcessedVariantId = variantId;
+          const variant = findVariantById(variantId);
+          if (variant) {
+            handleVariantChange(variant, 'input change');
+          }
+        }
+      });
+    }
+
+    // Method 3: Select Dropdown Change with debouncing
+    const variantSelect = document.querySelector('select[name="id"], #ProductSelect, .product-single__variants');
+    if (variantSelect) {
+      variantSelect.addEventListener('change', function(e) {
+        const variantId = e.target.value;
+        if (variantId && variantId !== lastProcessedVariantId) {
+          lastProcessedVariantId = variantId;
+          const variant = findVariantById(variantId);
+          if (variant) {
+            handleVariantChange(variant, 'select change');
+          }
+        }
+      });
+    }
+
+    // Method 4: URL monitoring for variant changes (reduced frequency)
+    let lastUrlVariantId = getCurrentVariantId();
+    setInterval(() => {
+      const currentUrlVariantId = getCurrentVariantId();
+      if (currentUrlVariantId && currentUrlVariantId !== lastUrlVariantId && currentUrlVariantId !== lastProcessedVariantId) {
+        lastUrlVariantId = currentUrlVariantId;
+        lastProcessedVariantId = currentUrlVariantId;
+        const variant = findVariantById(currentUrlVariantId);
+        if (variant) {
+          handleVariantChange(variant, 'URL change');
+        }
+      }
+    }, 1000); // Reduced from 500ms to 1000ms
+
+    // Method 5: Legacy Shopify events
+    document.addEventListener('shopify:variant:change', (e) => {
+      if (e.detail?.variant) {
+        const variant = Object.values(customizerConfig.allVariants).find(v => v.id == e.detail.variant.id);
+        if (variant && variant.id !== lastProcessedVariantId) {
+          lastProcessedVariantId = variant.id;
+          handleVariantChange(variant, 'shopify:variant:change');
+        }
+      }
+    });
+
+    console.log('✅ Variant change listeners set up');
+  }
+
+  /**
+   * Helper Functions
+   */
+  function getCurrentVariantId() {
+    // Try input field first
+    const input = document.querySelector('input[name="id"]');
+    if (input && input.value) return input.value;
+    
+    // Try select dropdown
+    const select = document.querySelector('select[name="id"], #ProductSelect');
+    if (select && select.value) return select.value;
+    
+    // Try URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const variantParam = urlParams.get('variant');
+    if (variantParam) return variantParam;
+    
+    // Try data attributes
+    const form = document.querySelector('form[action*="/cart/add"]');
+    if (form) {
+      const variantInput = form.querySelector('[name="id"]');
+      if (variantInput && variantInput.value) return variantInput.value;
+    }
+    
+    return null;
+  }
+
+  function findVariantById(variantId) {
+    if (!variantId) return null;
+    return customizerConfig.allVariants[variantId] || null;
+  }
+
+  function handleVariantChange(variant, source) {
+    if (!variant || !variant.id) {
+      return;
+    }
+
+    // Prevent duplicate processing of the same variant
+    if (customizerConfig.selectedVariant?.id === variant.id) {
+      return;
+    }
+
+    console.log(`🎯 Variant changed (${source}):`, variant.id);
+    
+    // Update the global config
+    customizerConfig.selectedVariant = variant;
+    
+    // Calculate new preset based on the variant
+    const newPreset = calculatePresetForVariant(variant);
+    
+    if (newPreset) {
+      // Don't send to iframe - only store for when customizer opens
+      window.lastCalculatedPreset = newPreset;
+      console.log('🔄 Preset calculated (not sent):', newPreset);
+    }
+
+    // Update button state
+    const btn = document.getElementById("openCustomizerBtn");
+    if (btn) {
+      if (variant.available) {
+        btn.style.opacity = "1";
+        btn.disabled = false;
+        btn.textContent = "✨ Customise & Order";
+      } else {
+        btn.style.opacity = "0.5";
+        btn.disabled = true;
+        btn.textContent = "Sold Out";
+      }
+    }
+
+    // Trigger custom event for other scripts
+    const customEvent = new CustomEvent('customizer:variantChanged', {
+      detail: { variant, preset: newPreset, source }
+    });
+    document.dispatchEvent(customEvent);
+  }
+
+  /**
+   * Prevent page refresh and navigation when iframe is active
+   */
+  function preventPageRefresh() {
+    const handleKeyDown = (e) => {
+      if (customizerState.isOpen) {
+        if (e.key === 'F5') {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('🚫 F5 refresh prevented - customizer is open');
+          return false;
+        }
+        
+        if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('🚫 Ctrl+R/Cmd+R refresh prevented - customizer is open');
+          return false;
+        }
+        
+        if (e.ctrlKey && e.key === 'F5') {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('🚫 Ctrl+F5 hard refresh prevented - customizer is open');
+          return false;
+        }
+      }
+    };
+
+    const handlePopState = (e) => {
+      if (customizerState.isOpen) {
+        history.pushState(null, null, window.location.pathname);
+        console.log('🚫 Browser navigation prevented - customizer is open');
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    const handleBeforeUnload = (e) => {
+      if (customizerState.isOpen) {
+        e.preventDefault();
+        e.returnValue = '';
+        console.log('🚫 Page unload prevented - customizer is open');
+        return '';
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown, true);
+    window.addEventListener('popstate', handlePopState);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    customizerState.preventRefreshHandlers = {
+      handleKeyDown,
+      handlePopState,
+      handleBeforeUnload
+    };
+  }
+
+  function removeRefreshPrevention() {
+    if (customizerState.preventRefreshHandlers) {
+      const { handleKeyDown, handlePopState, handleBeforeUnload } = customizerState.preventRefreshHandlers;
+      
+      document.removeEventListener('keydown', handleKeyDown, true);
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      
+      delete customizerState.preventRefreshHandlers;
+      console.log('✅ Refresh prevention removed');
+    }
+  }
+
+  function closeCustomizer() {
+    const iframe = document.getElementById("customizerIframe");
+    const wrapper = document.getElementById("customizerFullscreenWrapper");
+    const loading = document.getElementById("customizerLoading");
+
+    console.log('🚪 Closing customizer');
+
+    removeRefreshPrevention();
+
+    if (wrapper) {
+      wrapper.style.opacity = '0';
+      setTimeout(() => {
+        wrapper.style.display = "none";
+        wrapper.style.opacity = '1';
+      }, 300);
+    }
+
+    if (iframe) {
+      iframe.src = "";
+      iframe.style.opacity = '0';
+    }
+
+    if (loading) loading.style.display = 'none';
+
+    document.body.classList.remove("modal-open");
+
+    Object.assign(customizerState, {
+      isOpen: false,
+      isLoading: false,
+      sessionActive: false,
+      orderProcessed: false,
+      retryCount: 0
+    });
+  }
+
+  function redirectToCart() {
+    closeCustomizer();
+    window.location.href = '/cart';
+  }
+
+  function loadCustomizerIframe(url) {
+    return new Promise((resolve, reject) => {
+      const iframe = document.getElementById("customizerIframe");
+      const loading = document.getElementById("customizerLoading");
+      
+      customizerState.isLoading = true;
+      loading.style.display = 'block';
+      iframe.style.opacity = '0';
+      
+      const timeout = setTimeout(() => {
+        reject(new Error('Iframe loading timeout'));
+      }, 15000);
+      
+      const onLoad = () => {
+        clearTimeout(timeout);
+        iframe.removeEventListener('load', onLoad);
+        iframe.removeEventListener('error', onError);
+        
+        customizerState.isLoading = false;
+        loading.style.display = 'none';
+        iframe.style.opacity = '1';
+        
+        console.log('✅ Iframe loaded successfully');
+        resolve();
+      };
+      
+      const onError = () => {
+        clearTimeout(timeout);
+        iframe.removeEventListener('load', onLoad);
+        iframe.removeEventListener('error', onError);
+        
+        console.error('❌ Iframe failed to load');
+        reject(new Error('Iframe failed to load'));
+      };
+      
+      iframe.addEventListener('load', onLoad);
+      iframe.addEventListener('error', onError);
+      iframe.src = url;
+    });
+  }
+
+  async function openCustomizer() {
+    if (customizerState.isOpen || customizerState.isLoading) {
+      console.log('⚠️ Customizer already open or loading');
+      return;
+    }
+
+    const btn = document.getElementById("openCustomizerBtn");
+    const wrapper = document.getElementById("customizerFullscreenWrapper");
+    
+    if (!btn || !wrapper) {
+      console.error('❌ Required elements not found');
+      return;
+    }
+
+    if (!customizerConfig.selectedVariant || !customizerConfig.selectedVariant.available) {
+      alert("Please select an available variant first.");
+      return;
+    }
+
+    try {
+      btn.classList.add('loading');
+      btn.textContent = 'Loading...';
+
+      const params = new URLSearchParams({
+        variant_id: customizerConfig.selectedVariant.id,
+        product_id: customizerConfig.productId,
+        handle: customizerConfig.productHandle,
+        shop_domain: customizerConfig.shopDomain,
+        mode: 'shopify_modal',
+        timestamp: Date.now()
+      });
+
+      const iframeUrl = `https://lankylemon-2fe9e.web.app/?${params}`;
+      console.log('🚀 Opening customizer:', iframeUrl);
+
+      wrapper.style.display = "block";
+      document.body.classList.add("modal-open");
+      customizerState.isOpen = true;
+      customizerState.sessionActive = true;
+
+      preventPageRefresh();
+      history.pushState({ customizerOpen: true }, null, window.location.pathname);
+
+      await loadCustomizerIframe(iframeUrl);
+
+      // Send the latest calculated preset (ONCE only) - or initialization message
+      const latestPreset = window.lastCalculatedPreset || calculatePresetForVariant(customizerConfig.selectedVariant);
+      if (latestPreset && (latestPreset.mapStyle || latestPreset.frame)) {
+        console.log('📤 Sending latest preset to iframe:', latestPreset);
+        setTimeout(() => sendPresetToIframe(latestPreset), 1000);
+      } else {
+        // Send a basic initialization message for products without frame/mapStyle
+        console.log('🔓 Sending initialization message - customizer will open unlocked');
+        setTimeout(() => sendInitializationMessage(), 1000);
+      }
+
+      console.log('✅ Customizer opened successfully');
+
+    } catch (error) {
+      console.error('❌ Failed to open customizer:', error);
+      
+      if (customizerState.retryCount < customizerState.maxRetries) {
+        customizerState.retryCount++;
+        console.log(`🔄 Retrying... (${customizerState.retryCount}/${customizerState.maxRetries})`);
+        setTimeout(() => openCustomizer(), 2000);
+        return;
+      }
+
+      showFallbackOption();
+      
+    } finally {
+      btn.classList.remove('loading');
+      btn.textContent = '✨ Customise & Order';
+    }
+  }
+
+  function showFallbackOption() {
+    const fallbackUrl = `https://lankylemon-2fe9e.web.app/?variant_id=${customizerConfig.selectedVariant.id}&product_id=${customizerConfig.productId}&mode=standalone`;
+    
+    if (confirm('Having trouble loading the customizer? Would you like to open it in a new window?')) {
+      window.open(fallbackUrl, '_blank', 'width=1200,height=800');
+    }
+    
+    closeCustomizer();
+  }
+
+  function processOrderMessage(event) {
+    if (event.origin !== "https://lankylemon-2fe9e.web.app") {
+      console.log('🚫 Ignored message from unauthorized origin:', event.origin);
+      return;
+    }
+
+    console.log('📨 Received message from Angular:', event.data);
+    console.log('📨 Message type:', event.data?.type);
+    console.log('📨 Full event:', event);
+
+    switch (event.data.type) {
+      case 'PRESET_RECEIVED':
+        console.log("✅ Angular confirmed preset received successfully");
+        console.log("✅ Preset data:", event.data.preset);
+        break;
+
+      case 'PRESET_APPLIED':
+        console.log("✅ Angular confirmed preset applied successfully");
+        console.log("✅ Applied preset:", event.data.preset);
+        break;
+
+      case 'PRESET_ERROR':
+        console.error("❌ Angular failed to apply preset:", event.data.error);
+        console.error("❌ Failed preset data:", event.data.preset);
+        break;
+
+      case 'ORDER_SUBMITTED':
+        handleOrderSubmission(event.data);
+        break;
+
+      case 'ORDER_CANCELLED':
+        console.log("🚪 ORDER_CANCELLED received");
+        closeCustomizer();
+        break;
+
+      case 'unsavedChanges':
+        console.log("⚠️ User has unsaved changes in customizer");
+        break;
+
+      default:
+        console.log('ℹ️ Unknown message type:', event.data.type, event.data);
+    }
+  }
+
+  // Helper functions for formatting
+  function formatCruiseDates(startDate, endDate) {
+    if (!startDate && !endDate) return '';
+    if (!startDate) return endDate;
+    if (!endDate) return startDate;
+    
+    // Convert any date format to DD-MM-YYYY
+    const formatDate = (dateInput) => {
+      try {
+        if (!dateInput) return '';
+        
+        // If it's already a formatted string in our target format, return as is
+        if (typeof dateInput === 'string' && /^\d{2}-\d{2}-\d{4}$/.test(dateInput)) {
+          return dateInput;
+        }
+
+        // Handle string date in YYYY-MM-DD format
+        if (typeof dateInput === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateInput)) {
+          const [year, month, day] = dateInput.split('-');
+          return `${day}-${month}-${year}`;
+        }
+
+        // Try to create a Date object from the input
+        const date = new Date(dateInput);
+        if (isNaN(date.getTime())) {
+          console.warn('Invalid date input:', dateInput);
+          return String(dateInput); // Return the original input if we can't parse it
+        }
+
+        // Format the date as DD-MM-YYYY
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
+      } catch (error) {
+        console.error('Error formatting date:', error, dateInput);
+        return String(dateInput); // Return the original input in case of error
+      }
+    };
+    
+    const formattedStart = formatDate(startDate);
+    const formattedEnd = formatDate(endDate);
+    
+    return `${formattedStart} to ${formattedEnd}`;
+  }
+
+  function formatPorts(departure, arrival) {
+    try {
+      if (!departure && !arrival) return '';
+      if (!departure) return String(arrival);
+      if (!arrival) return String(departure);
+      if (String(departure) === String(arrival)) return String(departure);
+      return `${departure} to ${arrival}`;
+    } catch (error) {
+      console.error('Error formatting ports:', error, { departure, arrival });
+      return `${departure} to ${arrival}`;
+    }
+  }
+
+  function handleOrderSubmission(messageData) {
+    console.log("🔁 ORDER_SUBMITTED received");
+    console.log("🔒 State check:", {
+      sessionActive: customizerState.sessionActive,
+      orderProcessed: customizerState.orderProcessed
+    });
+    console.log("📦 Full message data:", messageData);
+
+    if (!customizerState.sessionActive || customizerState.orderProcessed) {
+      console.log('⚠️ Duplicate or invalid order message ignored');
+      return;
+    }
+
+    try {
+      customizerState.orderProcessed = true;
+
+      const order = messageData.order || messageData || {};
+      const premium = messageData.premium || false;
+      
+      console.log('📦 Order data:', order);
+      console.log('💎 Premium:', premium);
+      
+      // Extract routes/cruise data
+      const routes = order.routes || [];
+      
+      console.log('🚢 Routes data:', routes);
+
+      // If no routes, treat as single product
+      if (!routes.length) {
+        addSingleProductToCart(order, premium);
+        return;
+      }
+
+      // Prepare all items for cart
+      const items = routes.map(route => {
+        console.log('🚢 Processing route:', route);
+        
+        const properties = {
+          // === VISIBLE in cart (customer-friendly) - EXACT FORMAT REQUESTED ===
+          "Map Title": order.title || order.mapTitle || '',     
+          "Cruise Line": route.cruise || order.cruise || '',                    
+          "Dates": formatCruiseDates(route.startDate || order.startDate, route.endDate || order.endDate),
+          "Ports": formatPorts(route.departurePort || order.departurePort, route.arrivalPort || order.arrivalPort),
+          "Frame Colour": order.frame || 'None',
+          
+          // === HIDDEN from cart display (with underscore prefix) but included in order emails ===
+          "_Premium": premium ? 'Yes' : 'No',
+          "_Map Style": order.mapStyle || '',                   
+          "_Map Text": order.mapText || '',                     
+          "_Line Style": order.lineStyle || '',                
+          "_Line Type": order.lineType || '',                  
+          "_Line Colour": order.lineColor || order.lineColour || '',
+          "_Line Width": order.lineWidth || '',                
+          "_Marker Type": order.marker || order.markerType || '',
+          "_Marker Colour": order.markerColour || order.markerColor || '',
+          "_Size": order.size || '',                           
+          "_Frame Style": order.frame || order.frameStyle || '',
+          "_Frame": order.frame || '',                         
+          "_Trim": order.trim || '',                           
+          "_Trim Width": order.trimWidth || '',                
+          "_Sub Title": order.subTitle || '',                  
+          "_Body Text": order.bodyText || '',                  
+          "_Text Size": order.textSize || '',                  
+          "_Text Colour": order.textColour || order.textColor || '',
+          "_Text Style": order.textStyle || '',                
+          "_Text Background": order.textBackground || '',      
+          "_Orientation": order.orientation || '',             
+          "_Zoom": order.zoom || '',                           
+          "_Message": order.message || '',
+          "_Color": order.color || '',
+          "_Route Details": `${route.cruise || ''} | ${route.departurePort || ''} to ${route.arrivalPort || ''} | ${route.startDate || ''} - ${route.endDate || ''}`
+        };
+
+        // Remove empty properties
+        Object.keys(properties).forEach(key => {
+          if (!properties[key] || properties[key] === '') {
+            delete properties[key];
+          }
+        });
+
+        console.log("📦 Adding route to cart with properties:", properties);
+
+        return {
+          id: customizerConfig.selectedVariant.id,
+          quantity: 1,
+          properties: properties
+        };
+      });
+
+      // Add all items to cart in a single request
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ items })
+      })
+      .then(response => {
+        console.log('📡 Cart add response status:', response.status);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("✅ All routes added to cart successfully:", data);
+        
+        // Hide the variant color display in cart
+        setTimeout(() => {
+          const cartMetaTexts = document.querySelectorAll('.cart_meta-text');
+          cartMetaTexts.forEach(el => {
+            if (el.textContent.includes('Color:')) {
+              el.style.display = 'none';
+            }
+          });
+        }, 500);
+        
+        // Just redirect to cart smoothly
+        setTimeout(redirectToCart, 300);
+      })
+      .catch(error => {
+        console.error("❌ Failed to add items to cart:", error);
+        customizerState.orderProcessed = false;
+        alert("Failed to add items to cart. Please try again.");
+      });
+
+    } catch (error) {
+      console.error("❌ Error in handleOrderSubmission:", error);
+      customizerState.orderProcessed = false;
+      alert("An error occurred while processing your order. Please try again.");
+    }
+  }
+
+  // Helper function for single product cart add
+  function addSingleProductToCart(order, premium) {
+    const properties = {
+      // === VISIBLE in cart (customer-friendly) - EXACT FORMAT REQUESTED ===
+      "Map Title": order.title || order.mapTitle || '',     
+      "Cruise Line": order.cruise || '',                    
+      "Dates": formatCruiseDates(order.startDate, order.endDate),
+      "Ports": formatPorts(order.departurePort, order.arrivalPort),
+      "Frame Colour": order.frame || 'None',
+      
+      // === HIDDEN from cart display (with underscore prefix) but included in order emails ===
+      "_Premium": premium ? 'Yes' : 'No',
+      "_Map Style": order.mapStyle || '',                   
+      "_Map Text": order.mapText || '',                     
+      "_Line Style": order.lineStyle || '',                
+      "_Line Type": order.lineType || '',                  
+      "_Line Colour": order.lineColor || order.lineColour || '',
+      "_Line Width": order.lineWidth || '',                
+      "_Marker Type": order.marker || order.markerType || '',
+      "_Marker Colour": order.markerColour || order.markerColor || '',
+      "_Size": order.size || '',                           
+      "_Frame Style": order.frame || order.frameStyle || '',
+      "_Frame": order.frame || '',                         
+      "_Trim": order.trim || '',                           
+      "_Trim Width": order.trimWidth || '',                
+      "_Sub Title": order.subTitle || '',                  
+      "_Body Text": order.bodyText || '',                  
+      "_Text Size": order.textSize || '',                  
+      "_Text Colour": order.textColour || order.textColor || '',
+      "_Text Style": order.textStyle || '',                
+      "_Text Background": order.textBackground || '',      
+      "_Orientation": order.orientation || '',             
+      "_Zoom": order.zoom || '',                           
+      "_Message": order.message || '',
+      "_Color": order.color || ''
+    };
+
+    // Remove empty properties
+    Object.keys(properties).forEach(key => {
+      if (!properties[key] || properties[key] === '') {
+        delete properties[key];
+      }
+    });
+
+    console.log("📦 Adding single product to cart");
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        items: [{
+          id: customizerConfig.selectedVariant.id,
+          quantity: parseInt(order.quantity) || 1,
+          properties: properties
+        }]
+      })
+    })
+    .then(response => {
+      console.log('📡 Cart add response status:', response.status);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("✅ Cart add successful:", data);
+      
+      // Hide the variant color display in cart
+      setTimeout(() => {
+        const cartMetaTexts = document.querySelectorAll('.cart_meta-text');
+        cartMetaTexts.forEach(el => {
+          if (el.textContent.includes('Color:')) {
+            el.style.display = 'none';
+          }
+        });
+      }, 500);
+      
+      // Just redirect to cart smoothly
+      setTimeout(redirectToCart, 1500);
+    })
+    .catch(error => {
+      console.error("❌ Cart add failed:", error);
+      customizerState.orderProcessed = false;
+      alert("Failed to add item to cart. Please try again.");
+    });
+  }
+
+  function sendPresetToIframe(preset) {
+    const iframe = document.getElementById("customizerIframe");
+    
+    if (!iframe || !iframe.contentWindow) {
+      console.warn('⚠️ Iframe not ready for preset');
+      return;
+    }
+
+    // Send ONLY ONE message to avoid duplications (Angular only accepts 1)
+    // Angular expects the data in event.data.preset format
+    const singleMessage = {
+      preset: {
+        mapStyle: preset.mapStyle,
+        frame: preset.frame
+      },
+      timestamp: Date.now(),
+      source: 'shopify'
+    };
+    
+    try {
+      // Send only ONE message
+      iframe.contentWindow.postMessage(singleMessage, "https://lankylemon-2fe9e.web.app");
+      console.log('📤 Single preset message sent:', singleMessage);
+      console.log('📤 Preset data:', preset);
+      
+    } catch (error) {
+      console.error('❌ Failed to send preset:', error);
+    }
+  }
+
+  function sendInitializationMessage() {
+    const iframe = document.getElementById("customizerIframe");
+    
+    if (!iframe || !iframe.contentWindow) {
+      console.warn('⚠️ Iframe not ready for initialization');
+      return;
+    }
+
+    // Send a basic initialization message for products without preset data
+    const initMessage = {
+      type: 'INIT',
+      preset: null, // No preset data
+      timestamp: Date.now(),
+      source: 'shopify'
+    };
+    
+    try {
+      iframe.contentWindow.postMessage(initMessage, "https://lankylemon-2fe9e.web.app");
+      console.log('📤 Initialization message sent:', initMessage);
+      
+    } catch (error) {
+      console.error('❌ Failed to send initialization:', error);
+    }
+  }
+
+  function initializeRefreshPrevention() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('customizer') === 'open') {
+      const newUrl = window.location.pathname + window.location.search.replace(/[?&]customizer=open/, '');
+      history.replaceState(null, null, newUrl);
+    }
+
+    console.log('✅ Refresh prevention system initialized');
+  }
+
+  /**
+   * Hide Shopify's automatic color variant display
+   */
+  function hideColorDisplay() {
+    let hiddenCount = 0;
+    
+    // Hide elements containing "Color:"
+    const elementsToCheck = document.querySelectorAll('*');
+    elementsToCheck.forEach(el => {
+      if (el.textContent && el.textContent.includes('Color:') && el.children.length === 0 && el.style.display !== 'none') {
+        el.style.display = 'none';
+        hiddenCount++;
+      }
+    });
+
+    // Also hide common Shopify variant display classes
+    const selectors = [
+      '.cart_meta-text',
+      '.variant-option',
+      '.product-option',
+      '.variant-picker__option'
+    ];
+    
+    selectors.forEach(selector => {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach(el => {
+        if (el.textContent && el.textContent.includes('Color:') && el.style.display !== 'none') {
+          el.style.display = 'none';
+          hiddenCount++;
+        }
+      });
+    });
+
+    // Only log if we actually hid something new
+    if (hiddenCount > 0 && (!window.lastHiddenCount || window.lastHiddenCount !== hiddenCount)) {
+      console.log(`🚫 Hidden ${hiddenCount} color displays`);
+      window.lastHiddenCount = hiddenCount;
+    }
+  }
+
+  /**
+   * ENHANCED INITIALIZATION WITH COLOR HIDING
+   */
+  function initializeCustomizer() {
+    if (window.customizerInitialized) {
+      console.log('⚠️ Customizer already initialized');
+      return;
+    }
+    
+    console.log("🚀 Initializing Enhanced Customizer");
+    window.customizerInitialized = true;
+
+    // Hide color displays immediately and on changes
+    hideColorDisplay();
+    
+    // Re-hide after DOM changes (debounced)
+    let hideTimeout;
+    const observer = new MutationObserver(() => {
+      clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(hideColorDisplay, 100);
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Set up variant change listeners for frame selection
+    setupVariantChangeListeners();
+
+    // Calculate initial preset
+    const initialVariant = customizerConfig.selectedVariant;
+    if (initialVariant) {
+      const initialPreset = calculatePresetForVariant(initialVariant);
+      if (initialPreset) {
+        window.lastCalculatedPreset = initialPreset;
+      }
+    }
+
+    // Button click handler
+    const btn = document.getElementById("openCustomizerBtn");
+    if (btn) {
+      console.log("✅ Button found");
+      btn.addEventListener("click", function(e) {
+        e.preventDefault();
+        openCustomizer();
+      });
+    } else {
+      console.error("❌ Button not found");
+    }
+
+    // Escape key handler
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && customizerState.isOpen) {
+        closeCustomizer();
+      }
+    });
+
+    // Message listener
+    window.addEventListener("message", processOrderMessage);
+    
+    // Universal message listener to catch ALL messages from Angular app
+    window.addEventListener("message", (event) => {
+      if (event.origin === "https://lankylemon-2fe9e.web.app") {
+        console.log('🔍 RAW message from Angular app:', event.data);
+        console.log('🔍 Message origin:', event.origin);
+        console.log('🔍 Message source:', event.source);
+      }
+    });
+
+    // Frame change listener (logging only, no messages sent)
+    document.addEventListener('frameChanged', (e) => {
+      console.log('🖼️ Frame changed:', e.detail);
+      
+      // Update the selected variant based on frame change
+      const currentVariant = customizerConfig.selectedVariant;
+      if (currentVariant) {
+        const newPreset = calculatePresetForVariant(currentVariant);
+        // Don't send message - only log for debugging
+        window.lastCalculatedPreset = newPreset;
+        console.log('🔄 Updated preset (not sent):', newPreset);
+      }
+    });
+
+    // Initialize refresh prevention system
+    initializeRefreshPrevention();
+
+    // Set initial button state
+    if (customizerConfig.selectedVariant?.available) {
+      btn.style.opacity = "1";
+      btn.disabled = false;
+    } else {
+      btn.style.opacity = "0.5";
+      btn.disabled = true;
+    }
+
+    console.log("✅ Enhanced Customizer initialized");
+  }
+
+  // Initialize when ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeCustomizer);
+  } else {
+    initializeCustomizer();
+  }
+
+  // Enhanced debug helpers
+  window.customizerDebug = {
+    config: customizerConfig,
+    state: customizerState,
+    preset: productDefaultPreset,
+    openCustomizer,
+    closeCustomizer,
+    sendPresetToIframe,
+    preventPageRefresh,
+    removeRefreshPrevention,
+    calculatePresetForVariant,
+    getCurrentVariantId,
+    findVariantById,
+    handleVariantChange,
+    lastPreset: () => window.lastCalculatedPreset,
+    // Quick button test
+    testButton: () => {
+      const btn = document.getElementById("openCustomizerBtn");
+      if (btn) {
+        console.log("🔍 Button found:", btn);
+        console.log("🖱️ Triggering click...");
+        btn.click();
+      } else {
+        console.error("❌ Button not found!");
+      }
+    }
+  };
+</script>
