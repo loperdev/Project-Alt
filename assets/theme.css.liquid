@@ -1307,6 +1307,56 @@ details[open] .arw { transform:rotate(180deg); }
   background: #f0f0f0;
 }
 
+/* Orientation swatch styling */
+.orientation-swatch {
+  padding: 8px 16px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  margin: 2px;
+  text-transform: capitalize;
+}
+
+.orientation-option:checked + .orientation-swatch {
+  border-color: #28a745;
+  background: #d4edda;
+  color: #155724;
+  font-weight: 600;
+}
+
+.orientation-swatch:hover {
+  border-color: #999;
+  background: #f0f0f0;
+}
+
+/* Size swatch styling */
+.size-swatch {
+  padding: 8px 16px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  margin: 2px;
+  font-weight: 500;
+}
+
+.size-option:checked + .size-swatch {
+  border-color: #ffc107;
+  background: #fff3cd;
+  color: #856404;
+  font-weight: 600;
+}
+
+.size-swatch:hover {
+  border-color: #999;
+  background: #f0f0f0;
+}
+
 /* Color interaction based on frame selection - HIDE color swatches when unframed */
 .variant-selects[data-frame-selected="unframed"] .cloptions:not([data-option-type="frame"]) .swatchLbl:not(.frameless-color),
 .variant-selects[data-frame-selected="frameless"] .cloptions:not([data-option-type="frame"]) .swatchLbl:not(.frameless-color),
