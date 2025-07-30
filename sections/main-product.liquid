@@ -4105,3 +4105,31 @@
 	]
 }
 {% endschema %}
+
+{%- comment -%}
+  Size Meta Object Integration
+{%- endcomment -%}
+
+{%- assign size_meta_objects = product.metafields.custom.sizes.value -%}
+{%- if size_meta_objects -%}
+  <div class="size-options">
+    <label class="size-label">Size:</label>
+    <div class="size-swatches">
+      {%- for size in size_meta_objects -%}
+        <input type="radio" 
+               name="size" 
+               id="size-{{ size.id }}" 
+               value="{{ size.name }}"
+               class="size-option"
+               data-price="{{ size.price | default: product.price }}"
+               data-dimensions="{{ size.dimensions }}">
+        <label for="size-{{ size.id }}" class="size-swatch">
+          {{ size.name }}
+          {%- if size.dimensions -%}
+            <span class="size-dimensions">({{ size.dimensions }})</span>
+          {%- endif -%}
+        </label>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}

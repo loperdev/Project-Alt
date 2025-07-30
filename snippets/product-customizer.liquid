@@ -1053,6 +1053,44 @@
           "_Route Details": `${route.cruise || ''} | ${route.departurePort || ''} to ${route.arrivalPort || ''} | ${route.startDate || ''} - ${route.endDate || ''}`
         };
 
+        // Handle size meta objects
+        const sizeOptions = document.querySelectorAll('.size-option');
+        let selectedSize = '';
+        
+        sizeOptions.forEach(option => {
+          option.addEventListener('change', function() {
+            selectedSize = this.value;
+            const dimensions = this.dataset.dimensions;
+            const price = this.dataset.price;
+            
+            // Update price if size has different price
+            if (price && price !== '{{ product.price }}') {
+              updatePrice(parseFloat(price));
+            }
+            
+            // Update cart properties
+            updateCartProperties();
+          });
+        });
+        
+        function updateCartProperties() {
+          const properties = {
+            // === VISIBLE in cart (customer-friendly) ===
+            "Map Title": order.title || order.mapTitle || '',     
+            "Cruise Line": route.cruise || order.cruise || '',                    
+            "Dates": formatCruiseDates(route.startDate || order.startDate, route.endDate || order.endDate),
+            "Ports": formatPorts(route.departurePort || order.departurePort, route.arrivalPort || order.arrivalPort),
+            "Frame Colour": order.frame || 'None',
+            "Size": selectedSize || 'Standard',
+            
+            // === HIDDEN from cart display but included in order emails ===
+            "_Premium": premium ? 'Yes' : 'No',
+            "_Map Style": order.mapStyle || '',                   
+            "_Map Text": order.mapText || '',
+            "_Orientation": order.orientation || 'Portrait',
+            "_Size Dimensions": selectedSize ? document.querySelector(`input[value="${selectedSize}"]`)?.dataset.dimensions || '' : ''
+          };
+
         // Remove empty properties
         Object.keys(properties).forEach(key => {
           if (!properties[key] || properties[key] === '') {
