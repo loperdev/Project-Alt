@@ -2430,8 +2430,7 @@
       {
         "type": "product",
         "id": "gift_product",
-        "label": "Select product",
-        "visible_if": "{{ settings.giftwrap }}"
+        "label": "Select product"
       },
       {
         "type": "text",
@@ -2747,14 +2746,12 @@
       {
         "type": "collection",
         "id": "searchCl",
-        "label": "Select Collection",      
-        "visible_if": "{{ settings.search_recomand == 'prr' }}"
+        "label": "Select Collection"
       },      
       {
         "label": "Select Collections",
         "id": "srClList",
-        "type": "collection_list",
-        "visible_if": "{{ settings.search_recomand == 'clr' }}"
+        "type": "collection_list"
       },
       {
         "type": "range",
