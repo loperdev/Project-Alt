@@ -127,7 +127,7 @@
           "type": "m1",
           "settings": {
             "title": "Shop",
-            "url": "shopify://collections/mm",
+            "url": "shopify://collections/all-products",
             "newtab": false,
             "menu": "home",
             "mcol": 2,

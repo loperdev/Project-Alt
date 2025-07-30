@@ -154,7 +154,7 @@
       "settings": {
         "title": "",
         "subtitle": "",
-        "collection": "mm",
+        "collection": "all-products",
         "prbox_style": "grid_3",
         "show_color_swatch": true,
         "show_vendor": false,
@@ -569,7 +569,7 @@
           "type": "button",
           "settings": {
             "btntxt": "Shop Now",
-            "url": "shopify://collections/mm",
+            "url": "shopify://collections/all-products",
             "newtab1": false,
             "btntxt1": "",
             "url1": "",
@@ -823,7 +823,7 @@
             "txtmb": 5,
             "txtmbm": 5,
             "btn": "Shop Now",
-            "link": "shopify://collections/mm",
+            "link": "shopify://collections/all-products",
             "btn-style": "btn1",
             "btn-size": "btn-sm"
           }
@@ -858,7 +858,7 @@
             "txtmb": 25,
             "txtmbm": 20,
             "btn": "Shop Now",
-            "link": "shopify://collections/mm",
+            "link": "shopify://collections/all-products",
             "btn-style": "btn1",
             "btn-size": "btn-sm"
           }
