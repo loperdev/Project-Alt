@@ -1251,13 +1251,29 @@ class VideoHoverHandler {
     if (!video) return;
 
     if (isEntering) {
-      // Start playing video on hover
-      videoHover.classList.add('playing');
-      video.play().catch(error => {
-        console.log('Video autoplay failed:', error);
-        // Fallback: show play button
-        videoHover.classList.remove('playing');
-      });
+      // Ensure video is loaded before playing
+      if (video.readyState >= 2) {
+        // Video has enough data to play
+        videoHover.classList.add('playing');
+        video.currentTime = 0;
+        video.play().catch(error => {
+          console.log('Video autoplay failed:', error);
+          videoHover.classList.remove('playing');
+        });
+      } else {
+        // Wait for video to load
+        video.addEventListener('loadeddata', () => {
+          videoHover.classList.add('playing');
+          video.currentTime = 0;
+          video.play().catch(error => {
+            console.log('Video autoplay failed:', error);
+            videoHover.classList.remove('playing');
+          });
+        }, { once: true });
+        
+        // Force load the video
+        video.load();
+      }
     } else {
       // Pause video when mouse leaves
       videoHover.classList.remove('playing');

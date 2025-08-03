@@ -3676,13 +3676,6 @@
       {
         "type": "checkbox",
         "id": "show_video_on_hover",
-        "label": "Show video on hover",
-        "info": "Show product videos on hover instead of second image",
-        "default": false
-      },
-      {
-        "type": "checkbox",
-        "id": "show_video_on_hover",
         "label": "Show Video on hover instead of second image?",
         "info": "When enabled, videos will play on hover instead of showing the second image",
         "default": false
