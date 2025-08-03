@@ -167,7 +167,7 @@
             "min": 200,
             "max": 1000,
             "step": 10,
-             "visible_if": "{{ section.settings.ht == '2' }}"
+             
         },
         {
             "type": "range",
@@ -177,7 +177,7 @@
             "min": 200,
             "max": 1000,
             "step": 10,
-            "visible_if": "{{ section.settings.ht == '2' }}"
+            
         },
         {
             "type": "range",
@@ -187,7 +187,7 @@
             "min": 100,
             "max": 800,
             "step": 10,
-            "visible_if": "{{ section.settings.ht == '2' }}"
+            
         },  
 		 {
             "type":"checkbox",
@@ -204,7 +204,7 @@
             "max": 2200,
             "step": 100,
             "unit": "px",
-            "visible_if": "{{ section.settings.section_width }}"
+            
         },  
         {
                   "type": "range",
@@ -925,19 +925,19 @@
                     "id": "btn2",
                     "label": "Button 2 Text",
                     "default":"Shop now",
-                     "visible_if": "{{ block.settings.display_btn }}"
+                     
                 },
                 {
                     "type": "url",
                     "id": "link2",
                     "label": "Button 2 Link",
-                     "visible_if": "{{ block.settings.display_btn }}"
+                     
                 },
                {
 				"type": "select",
 				"id": "btn-style1",
 				"label": "Button Design",
-                "visible_if": "{{ block.settings.display_btn }}",
+                
 				"default": "btn1",
 				"options": [
 				  {
@@ -983,7 +983,7 @@
                     "id": "newtab1",
                     "label": "Open in new tab?",
                     "default":false,
-                    "visible_if": "{{ block.settings.display_btn }}",
+                    
                 },                  
                 {
                     "type": "header",        
@@ -1067,7 +1067,7 @@
                     "id": "tbg",
                     "label": "Box Background",
                     "default": "#fff",
-                    "visible_if": "{{ block.settings.isbox or block.settings.isboxm }}"
+                    
                 },
                 {
                     "type": "range",
@@ -1078,7 +1078,7 @@
                     "label": "Background Opacity",
                     "unit": "%",
                     "default": 0.9,
-                    "visible_if": "{{ block.settings.isbox or block.settings.isboxm }}"
+                    
                 },
 				{
                     "type": "range",
@@ -1089,7 +1089,7 @@
                     "max": 25,
                     "step": 1,
                     "unit":"px",
-                    "visible_if": "{{ block.settings.isbox or block.settings.isboxm }}"
+                    
                 }				
             ]
         },
@@ -1123,7 +1123,7 @@
                     "label": "Overlay Opacity",
                     "unit": "%",
                     "default": 0,
-                    "visible_if": "{{ section.settings.ovr }}"
+                    
                 },
                 {
                     "type":"header",
@@ -1616,19 +1616,19 @@
                     "id": "btn2",
                     "label": "Button 2 Text",
                     "default":"Shop now",
-                    "visible_if": "{{ block.settings.display_btn }}"
+                    
                 },
                 {
                     "type": "url",
                     "id": "link2",
                     "label": "Button 2 Link",
-                    "visible_if": "{{ block.settings.display_btn }}"
+                    
                 },
                {
 				"type": "select",
 				"id": "btn-style1",
 				"label": "Button Design",
-                "visible_if": "{{ block.settings.display_btn }}",
+                
 				"default": "btn1",
 				"options": [
 				  {
@@ -1674,7 +1674,7 @@
                     "id": "newtab1",
                     "label": "Open in new tab?",
                     "default":false,
-                    "visible_if": "{{ block.settings.display_btn }}",
+                    
                 },                         
                 {
                     "type": "header",        
@@ -1758,7 +1758,7 @@
                     "id": "tbg",
                     "label": "Box Background",
                     "default": "#fff",
-                    "visible_if": "{{ block.settings.isbox or block.settings.isboxm }}"
+                    
                 },
                 {
                     "type": "range",
@@ -1769,7 +1769,7 @@
                     "label": "Background Opacity",
                     "unit": "%",
                     "default": 0.9,
-                    "visible_if": "{{ block.settings.isbox or block.settings.isboxm }}"
+                    
                 },
 				{
                     "type": "range",
@@ -1780,7 +1780,7 @@
                     "max": 25,
                     "step": 1,
                     "unit":"px"	,
-                    "visible_if": "{{ block.settings.isbox or block.settings.isboxm }}"
+                    
                 }			
             ]
         }

@@ -369,14 +369,14 @@ if(!customElements.get('before-after')){
                 { "value":"left","label":"Left"},
                 { "value":"right","label":"Right"}
             ],
-           "visible_if": "{{ section.settings.dt }}"
+           
         },  
         {
             "type": "select",
             "id": "dt_align",
             "label":"Text alignment",
             "default": "tc",
-            "visible_if": "{{ section.settings.dt }}",
+            
             "options": [
                 { "value":"tl","label":"Left"},
                 { "value":"tc","label":"Center"},
@@ -390,7 +390,7 @@ if(!customElements.get('before-after')){
             "max": 1400,
             "step": 20,
             "label": "Text Max. width (desktop)",
-             "visible_if": "{{ section.settings.dt }}",
+             
             "unit": "px",
             "default": 500
         },
@@ -410,7 +410,7 @@ if(!customElements.get('before-after')){
             "label":"No padding?",
             "default": true,
             "info":"Remove left/right padding for fullwidth",
-             "visible_if": "{{ section.settings.sw }}"
+             
         },
         {
             "type": "color",

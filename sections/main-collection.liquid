@@ -370,7 +370,7 @@
 			"id": "sbpos",
 			"label": "Position",
 			"default": "left",	
-            "visible_if": "{{ section.settings.filters }}",
+            
 			"options": [
 				{ "value": "top", "label": "Top Filter" },
 				{ "value": "left", "label": "Left Sidebar" },
@@ -382,61 +382,61 @@
         {
 			"type": "header",
 			"content": "Top Filter ====",
-            "visible_if": "{{ section.settings.sbpos == 'top' and section.settings.filters }}",
+            
 		},	
         {
             "type":"checkbox",
             "id":"tbg",
             "label":"Add Background & Border for Bar?",
             "default": false,
-            "visible_if": "{{ section.settings.sbpos == 'top' and section.settings.filters }}",
+            
         }, 
         {
           "type": "color",
           "id": "filter_bg",
           "label": "Background",
           "default": "#fff",
-          "visible_if": "{{ section.settings.sbpos == 'top' and section.settings.filters }}",
+          
         },		       
         {
           "type": "color",
           "id": "flbdr",
           "label": "Border",
           "default": "#eee",
-          "visible_if": "{{ section.settings.sbpos == 'top' and section.settings.filters }}",
+          
         },		
 		{
 			"type": "checkbox",
 			"id": "flshadow",
 			"label": "Enable dropdown shadow",
 			"default": true,
-           "visible_if": "{{ section.settings.sbpos == 'top' and section.settings.filters  }}",
+           
 		},      
         {
 			"type": "header",
 			"content": "Sidebar ====",
-            "visible_if": "{{ section.settings.sbpos != 'top' and section.settings.filters}}",
+            
 		},	
         {
             "type":"checkbox",
             "id":"sbg",
             "label":"Add Background & Border?",
             "default": false,
-            "visible_if": "{{ section.settings.sbpos != 'top' and section.settings.filters }}",
+            
         }, 
         {
             "type":"color",
             "id":"sidebar_bg",
             "label":"Background",
             "default": "#fff",
-            "visible_if": "{{ section.settings.sbpos != 'top' and section.settings.filters }}",
+            
         },
         {
             "type":"color",
             "id":"sidebar_bdr",
             "label":"Border",
             "default": "#eee",
-            "visible_if": "{{ section.settings.sbpos != 'top' and section.settings.filters }}",
+            
         },
         {
             "type":"checkbox",
@@ -444,7 +444,7 @@
             "label":"Enable sticky sidebar?",
             "default": true,
             "info":"Sidebar will remain visible when scrolling through products",
-            "visible_if": "{{ section.settings.sbpos != 'top' and section.settings.filters }}",
+            
         },       
 		{
           "type": "header",      
@@ -673,7 +673,7 @@
             "label":"No padding?",
             "default": true,
             "info":"Remove left/right padding for fullwidth",
-             "visible_if": "{{ section.settings.sw }}"
+             
         },
         {
             "type": "color",

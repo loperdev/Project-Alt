@@ -170,14 +170,14 @@
         "id": "arrowc",
         "label": "Color",
         "default": "#000",
-        "visible_if": "{{ section.settings.arrow or section.settings.arrowm }}"
+        
       },
        {
         "type": "color",
         "id": "arrowbg",
         "label": "Background",
         "default": "#fff",
-        "visible_if": "{{ section.settings.arrow or section.settings.arrowm }}"
+        
        },	
       {
             "type":"paragraph",
@@ -200,7 +200,7 @@
         "id": "dots",
         "label": "Dots Color",
         "default": "#ddd",
-        "visible_if": "{{ section.settings.dot or section.settings.dotm }}"
+        
       },
       {
             "type":"paragraph",
@@ -222,7 +222,7 @@
             "type": "select",
             "id": "animation-style",
             "label": "Animation Style",
-            "visible_if": "{{ section.settings.txtanimation }}",
+            
             "default": "st1",
             "options": [
                 {
@@ -259,7 +259,7 @@
             "label":"No Padding?",
             "default": true,
             "info":"Remove left/right padding for fullwidth",
-            "visible_if": "{{ section.settings.sw }}"
+            
         },
         {
                   "type": "range",
@@ -822,19 +822,19 @@
                     "id": "btn2",
                     "label": "Button 2 Text",
                     "default":"Shop now",
-                    "visible_if": "{{ section.settings.display_btn }}"
+                    
                 },
                 {
                     "type": "url",
                     "id": "link2",
                     "label": "Button 2 Link",
-                     "visible_if": "{{ section.settings.display_btn }}"
+                     
                 },
                {
 				"type": "select",
 				"id": "btn-style1",
 				"label": "Button Design",
-                "visible_if": "{{ section.settings.display_btn }}",
+                
 				"default": "btn1",
 				"options": [
 				  {
@@ -879,7 +879,7 @@
                     "type": "checkbox",
                     "id": "newtab1",
                     "label": "Open in new tab?",
-                     "visible_if": "{{ section.settings.display_btn }}",
+                     
                     "default":false
                 },
               {

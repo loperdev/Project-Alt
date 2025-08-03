@@ -397,14 +397,14 @@
         "type": "image_picker",
         "id": "trLogo",
         "label": "Logo Image",
-        "visible_if": "{{ section.settings.trhead }}"
+        
       },        
 	  {
         "type": "color",
         "id": "thcl",
         "label": "Text & Icon",
         "default": "#fff",
-        "visible_if": "{{ section.settings.trhead }}"
+        
       },
 	  {
         "type": "header",
@@ -476,7 +476,7 @@
             "label":"Show Icon Image?",
             "default": true,
 			"info":"[How to add?](https://www.adornthemes.com/knowledge-base/icon-image-for-collection/)",
-            "visible_if": "{{ section.settings.catnav }}"
+            
       },
       {
             "type": "range",
@@ -487,7 +487,7 @@
             "max": 70,
             "step": 1,
             "unit": "px",
-             "visible_if": "{{ section.settings.catnav }}"
+             
       },
       {
             "type": "range",
@@ -498,7 +498,7 @@
             "max": 30,
             "step": 1,
             "unit": "px",
-            "visible_if": "{{ section.settings.catnav }}"
+            
       },
       {
         "type": "textarea",
@@ -622,7 +622,7 @@
         "id": "hdrbd_cl",
         "label": "Bottom Border",
         "default": "#fff",
-        "visible_if": "{{ section.settings.hdrbd }}"
+        
       }
 	],
     "blocks": [
@@ -741,7 +741,7 @@
             "label": "Column Width",
             "default": 50,
 			"unit": "%",
-			"visible_if": "{{ block.settings.callPos == 'right' }}"
+			
           },
           {
             "type": "range",
@@ -917,21 +917,21 @@
 			"id": "cwd",
 			"label": "Custom width?",
 			"default": false,
-            "visible_if": "{{ block.settings.bxsz == false }}",
+            
 		  },
 		  {
 			"type": "text",
 			"id": "bxwd",
 			"label": "Box width",
 			"default": "600",
-            "visible_if": "{{ block.settings.cwd }}"
+            
 		  },
 		  {
 			"type": "select",
 			"id": "mmal",
 			"label": "Box align",
 			"default": "center",
-            "visible_if": "{{ block.settings.cwd }}",
+            
 			"options": [
 			  { "value": "left", "label": "Left" },
 			  { "value": "center", "label": "Center" },
@@ -944,7 +944,7 @@
             "label": "Fullwidth?",
             "default": false,
              "info":"fullwidth inner content",
-             "visible_if": "{{ block.settings.cwd == false }}",
+             
           }
         ]
       },
@@ -1201,21 +1201,21 @@
 			"id": "cwd",
 			"label": "Custom width?",
 			"default": false,
-            "visible_if": "{{ block.settings.bxsz == false }}",
+            
 		  },
 		  {
 			"type": "text",
 			"id": "bxwd",
 			"label": "Box width",
 			"default": "600",
-            "visible_if": "{{ block.settings.cwd }}"
+            
 		  },
 		  {
 			"type": "select",
 			"id": "mmal",
 			"label": "Box align",
 			"default": "center",
-            "visible_if": "{{ block.settings.cwd }}",
+            
 			"options": [
 			  { "value": "left", "label": "Left" },
 			  { "value": "center", "label": "Center" },
@@ -1228,7 +1228,7 @@
             "label": "Fullwidth?",
             "default": false,
              "info":"fullwidth inner content",
-             "visible_if": "{{ block.settings.cwd == false }}",
+             
           }
         ]
       },
@@ -1388,21 +1388,21 @@
 			"id": "cwd",
 			"label": "Custom width?",
 			"default": false,
-            "visible_if": "{{ block.settings.bxsz == false }}",
+            
 		  },
 		  {
 			"type": "text",
 			"id": "bxwd",
 			"label": "Box width",
 			"default": "600",
-            "visible_if": "{{ block.settings.cwd }}"
+            
 		  },
 		  {
 			"type": "select",
 			"id": "mmal",
 			"label": "Box align",
 			"default": "center",
-            "visible_if": "{{ block.settings.cwd }}",
+            
 			"options": [
 			  { "value": "left", "label": "Left" },
 			  { "value": "center", "label": "Center" },
@@ -1415,7 +1415,7 @@
             "label": "Fullwidth?",
             "default": false,
              "info":"fullwidth inner content",
-             "visible_if": "{{ block.settings.cwd == false }}",
+             
           }
         ]
       },
@@ -1589,21 +1589,21 @@
 			"id": "cwd",
 			"label": "Custom width?",
 			"default": false,
-            "visible_if": "{{ block.settings.bxsz == false }}",
+            
 		  },
 		  {
 			"type": "text",
 			"id": "bxwd",
 			"label": "Box width",
 			"default": "600",
-            "visible_if": "{{ block.settings.cwd }}"
+            
 		  },
 		  {
 			"type": "select",
 			"id": "mmal",
 			"label": "Box align",
 			"default": "center",
-            "visible_if": "{{ block.settings.cwd }}",
+            
 			"options": [
 			  { "value": "left", "label": "Left" },
 			  { "value": "center", "label": "Center" },
@@ -1616,7 +1616,7 @@
             "label": "Fullwidth?",
             "default": false,
              "info":"fullwidth inner content",
-             "visible_if": "{{ block.settings.cwd == false }}",
+             
           }
         ]
       },
@@ -1713,21 +1713,21 @@
 			"id": "cwd",
 			"label": "Custom width?",
 			"default": false,
-            "visible_if": "{{ block.settings.bxsz == false }}",
+            
 		  },
 		  {
 			"type": "text",
 			"id": "bxwd",
 			"label": "Box width",
 			"default": "600",
-            "visible_if": "{{ block.settings.cwd }}"
+            
 		  },
 		  {
 			"type": "select",
 			"id": "mmal",
 			"label": "Box align",
 			"default": "center",
-            "visible_if": "{{ block.settings.cwd }}",
+            
 			"options": [
 			  { "value": "left", "label": "Left" },
 			  { "value": "center", "label": "Center" },
@@ -1740,7 +1740,7 @@
             "label": "Fullwidth?",
             "default": false,
              "info":"fullwidth inner content",
-             "visible_if": "{{ block.settings.cwd == false }}",
+             
           }
         ]
       }

@@ -288,27 +288,27 @@
         "type": "textarea",
         "id": "ttlsvg",
         "label": "Custom SVG code",
-        "visible_if": "{{ settings.sttlstl == '6' }}"
+        
       },     
       {
         "type": "color",
         "id": "sttlcl",
         "label": "Headings color",
         "default": "#111",
-        "visible_if": "{{ settings.sttlstl != '7' }}"
+        
       },
        {
         "type": "color",
         "id": "hdelem",
         "label": "Element color",
         "default": "#F67280",
-        "visible_if": "{{ settings.sttlstl != '1' and  settings.sttlstl != '7' }}"
+        
       },
       {
         "type": "color_background",
         "id": "sttlcl2",
         "label": "Gradient color",
-        "visible_if": "{{ settings.sttlstl == '7' }}"
+        
       },      
       {
         "type": "range",
@@ -318,7 +318,7 @@
         "min": 50,
         "max": 500,
         "step": 5,
-        "visible_if": "{{ settings.sttlstl != '1' and  settings.sttlstl != '7' }}"
+        
       }, 
       {
         "type": "select",
@@ -518,7 +518,7 @@
         "label": "Hide Price for Catalog mode?",
         "info": "product price",
         "default": false,
-        "visible_if": "{{ settings.catalog-mode }}"
+        
       },
       {
         "type": "header",
@@ -624,14 +624,14 @@
         "id": "shipbar",
         "label": "Bar Color",
         "default": "#eee",
-        "visible_if": "{{ settings.progress_bar }}"
+        
       },
       {
         "type": "color",
         "id": "shipbara",
         "label": "Active Bar color",
         "default": "#86BBBF",
-        "visible_if": "{{ settings.progress_bar }}"
+        
       },
       {
         "type": "header",
@@ -648,7 +648,7 @@
         "id": "terms_text",
         "label": "Text Message",
         "default": "I agree with the terms and conditions",
-        "visible_if": "{{ settings.terms_checkbox }}"
+        
       },
       {
         "type": "header",
@@ -675,28 +675,28 @@
         "id": "show_stt_mb",
         "label": "Hide in mobile?",
         "default": false,
-        "visible_if": "{{ settings.show_scroll }}"
+        
       },
       {
         "type": "color",
         "id": "stt_btntxt",
         "label": "Icon color",
         "default": "#000",
-        "visible_if": "{{ settings.show_scroll }}"
+        
       },
       {
         "type": "color",
         "id": "stt_btnbg",
         "label": "Background color",
         "default": "#fff",
-        "visible_if": "{{ settings.show_scroll }}"
+        
       },
       {
         "type": "color",
         "id": "stt_htbg",
         "label": "Scroll height",
         "default": "#000",
-        "visible_if": "{{ settings.show_scroll }}"
+        
       },
       {
         "type": "range",
@@ -706,14 +706,14 @@
         "min": 0,
         "max": 50,
         "step": 1,
-        "visible_if": "{{ settings.show_scroll }}"
+        
       },
       {
         "type": "checkbox",
         "id": "box_shadow",
         "label": "Enable Box Shadow",
         "default": false,
-        "visible_if": "{{ settings.show_scroll }}"
+        
       },
       {
         "type": "header",
@@ -747,13 +747,13 @@
         "id": "dynamicTxt1",
         "label": "Reminder Text 1",
         "default": "🔥 Don't forget this...",
-        "visible_if": "{{ settings.dynamicTtl }}"
+        
       },
       {
         "type": "text",
         "id": "dynamicTxt2",
         "label": "Reminder Text 2",
-        "visible_if": "{{ settings.dynamicTtl }}"
+        
       }
     ]
   },
@@ -785,7 +785,7 @@
         "id": "font1",
         "label": "Font Family 1",
         "default": "lato_n4",
-        "visible_if": "{{ settings.fonts == '1' }}"
+        
       },
       {
         "type": "font_picker",
@@ -793,7 +793,7 @@
         "label": "Font Family 2",
         "default": "lato_n4",
         "info": "Selecting a different font can affect the speed of your store.",
-        "visible_if": "{{ settings.fonts == '1' }}"
+        
       },
       {
         "type": "font_picker",
@@ -801,14 +801,14 @@
         "label": "Font Family 3",
         "default": "lato_n4",
         "info": "Selecting a different font can affect the speed of your store.",
-         "visible_if": "{{ settings.fonts == '1' }}"
+         
       },         
       {
         "type": "text",
         "id": "gfont1",
         "label": "Font Family 1",
         "default": "Poppins",
-        "visible_if": "{{ settings.fonts == '2' }}",
+        
         "info": "[Find google font name](https:\/\/fonts.google.com\/)",
       },
       {
@@ -817,7 +817,7 @@
         "label": "Font Family 2",
         "default": "Poppins",
         "info": "Selecting a different font can affect the speed of your store.",
-        "visible_if": "{{ settings.fonts == '2' }}"
+        
       },
       {
         "type": "text",
@@ -825,7 +825,7 @@
         "label": "Font Family 3",
         "default": "Poppins",
         "info": "Selecting a different font can affect the speed of your store.",
-        "visible_if": "{{ settings.fonts == '2' }}"
+        
       },
       {
         "type": "header",
@@ -1867,7 +1867,7 @@
         "id": "navbdr",
         "label": "Border",
         "default": "#eee",      
-         "visible_if": "{{ settings.isnavbd }}"
+         
       },
       {
         "type": "paragraph",
@@ -2431,7 +2431,7 @@
         "type": "product",
         "id": "gift_product",
         "label": "Select product",
-        "visible_if": "{{ settings.giftwrap }}"
+        
       },
       {
         "type": "text",
@@ -2439,13 +2439,13 @@
         "label": "Title",
         "default": "Add a Gift Wrap to your order, For $",
         "info": "Use $ sign to display price",
-        "visible_if": "{{ settings.giftwrap }}"
+        
       },
       {
         "type": "select",
         "id": "gift-btn",
         "label": "Button style (cart page)",
-        "visible_if": "{{ settings.giftwrap }}",
+        
         "default": "btn2",
         "options": [
           {
@@ -2501,14 +2501,14 @@
         "id": "cpnttl",
         "label": "Title",
         "default": "Coupon Code",
-        "visible_if": "{{ settings.coupon }}"
+        
       },
       {
         "type": "text",
         "id": "cpntxt",
         "label": "Text",
         "default": "Coupon code will be applied on the checkout page",
-         "visible_if": "{{ settings.coupon }}"
+         
       },
       {
         "type": "header",
@@ -2525,14 +2525,14 @@
         "id": "h_recomand",
         "label": "Hide in Mobile?",
         "default": false,
-         "visible_if": "{{ settings.pr_recomand }}"
+         
       },
       {
         "type": "text",
         "id": "rctitle",
         "label": "Title",
         "default": "Popular Products",
-         "visible_if": "{{ settings.pr_recomand }}"
+         
       }
     ]
   },
@@ -2748,13 +2748,13 @@
         "type": "collection",
         "id": "searchCl",
         "label": "Select Collection",      
-        "visible_if": "{{ settings.search_recomand == 'prr' }}"
+        
       },      
       {
         "label": "Select Collections",
         "id": "srClList",
         "type": "collection_list",
-        "visible_if": "{{ settings.search_recomand == 'clr' }}"
+        
       },
       {
         "type": "range",
@@ -2780,13 +2780,13 @@
         "label": "View all button text",
         "info": "Keep empty to hide button",
         "default": "VIEW ALL",
-        "visible_if": "{{ settings.search_recomand == 'prr' }}"
+        
       },    
       {
         "type": "select",
         "id": "sbtn-style",
         "label": "Button style",
-        "visible_if": "{{ settings.search_recomand == 'prr' }}",
+        
         "default": "btn4",
         "options": [
           {
@@ -2828,7 +2828,7 @@
         "id": "sbtn-size",
         "label": "Button size",
         "default": "btn-md",
-         "visible_if": "{{ settings.search_recomand == 'prr' }}",
+         
         "options": [
           {
             "label": "Small",
@@ -3084,14 +3084,14 @@
             "label": "Variant Image"
           }
         ],
-        "visible_if": "{{ settings.show_color_swatch }}"
+        
       },
       {
         "type": "select",
         "id": "vr_bg_position",
         "label": "Variant image position",
         "default": "50% 0",
-        "visible_if": "{{ settings.show_color_swatch }}",
+        
         "options": [
           {
             "value": "50% 0",
@@ -3110,7 +3110,7 @@
         "max": 50,
         "step": 1,
         "label": "Swatch size",
-        "visible_if": "{{ settings.show_color_swatch }}",
+        
         "default": 12,
         "unit": "px"
       },
@@ -3123,21 +3123,21 @@
         "label": "Swatch rounded",
         "unit": "px",
         "default": 30,
-        "visible_if": "{{ settings.show_color_swatch }}"
+        
       },
       {
         "type": "color",
         "id": "gswatch_bdr",
         "label": "Swatch border",
         "default": "#ddd",
-        "visible_if": "{{ settings.show_color_swatch }}"
+        
       },
       {
         "type": "color",
         "id": "gswatch_bdr_a",
         "label": "Swatch border (active)",
         "default": "#000",
-        "visible_if": "{{ settings.show_color_swatch }}"
+        
       },
       {
         "type": "range",
@@ -3148,7 +3148,7 @@
         "label": "Max Colors to show",
         "default": 4,
         "info": "[Learn more](https:\/\/www.adornthemes.com\/knowledge-base\/limit-color-swatch-to-display-on-products-grid\/)",
-        "visible_if": "{{ settings.show_color_swatch }}"
+        
       },
       {
         "type": "header",
@@ -3298,7 +3298,7 @@
         "id": "price_lbl_txt",
         "label": "Label",
         "default": "From",
-        "visible_if": "{{ settings.price_lbl }}"
+        
       },
       {
         "type": "header",
@@ -3378,14 +3378,14 @@
         "id": "gcountdown_text",
         "label": "Text",
         "default": "#222",
-        "visible_if": "{{ settings.display_countdown }}"
+        
       },
       {
         "type": "color",
         "id": "gcountdown_bg",
         "label": "Background",
         "default": "#fff",
-        "visible_if": "{{ settings.display_countdown }}"
+        
       },
       {
         "type": "range",
@@ -3395,7 +3395,7 @@
         "min": 0,
         "max": 30,
         "step": 1,
-        "visible_if": "{{ settings.display_countdown }}"
+        
       },
       {
         "type": "range",
@@ -3406,7 +3406,7 @@
         "label": "Font size",
         "unit": "px",
         "default": 13,
-        "visible_if": "{{ settings.display_countdown }}"
+        
       },
       {
         "type": "header",
@@ -3493,21 +3493,21 @@
             "value": "2"
           }
         ],
-        "visible_if": "{{ settings.lbl_sale }}"
+        
       },
       {
         "type": "color",
         "id": "lbl_sale_cl",
         "label": "Text Color",
         "default": "#fff",
-        "visible_if": "{{ settings.lbl_sale }}"
+        
       },
       {
         "type": "color",
         "id": "lbl_sale_bg",
         "label": "Background",
         "default": "#ff708e",
-         "visible_if": "{{ settings.lbl_sale }}"
+         
       },
       {
         "type": "paragraph",
@@ -3535,21 +3535,21 @@
             "value": "2"
           }
         ],
-         "visible_if": "{{ settings.soldout_lbl }}"
+         
       },
       {
         "type": "color",
         "id": "lbl_sold_cl",
         "label": "Text Color",
         "default": "#fff",
-        "visible_if": "{{ settings.soldout_lbl }}"
+        
       },
       {
         "type": "color",
         "id": "lbl_sold_bg",
         "label": "Background",
         "default": "#000",
-        "visible_if": "{{ settings.soldout_lbl }}"
+        
       },
       {
         "type": "range",
@@ -3561,7 +3561,7 @@
         "unit": "px",
         "default": 4,
         "info": "for large label",
-        "visible_if": "{{ settings.soldout_lbl }}"
+        
       },
       {
         "type": "paragraph",
@@ -3591,14 +3591,14 @@
         "label": "Font size",
         "unit": "px",
         "default": 11,
-        "visible_if": "{{ settings.marquee }}"
+        
       },
       {
         "type": "select",
         "id": "m_fw",
         "label": "Font weight",
         "default": "fwr",
-        "visible_if": "{{ settings.marquee }}",
+        
         "options": [
           {
             "value": "fwr",
@@ -3623,7 +3623,7 @@
         "id": "m_case",
         "label": "Text style",
         "default": "none",
-        "visible_if": "{{ settings.marquee }}",
+        
         "options": [
           {
             "value": "none",
@@ -3640,14 +3640,14 @@
         "id": "m_cl",
         "label": "Text",
         "default": "#eee",
-        "visible_if": "{{ settings.marquee }}"
+        
       },
       {
         "type": "color",
         "id": "m_bg",
         "label": "Background",
         "default": "#111",
-        "visible_if": "{{ settings.marquee }}"
+        
       },
       {
         "type": "header",
@@ -4580,7 +4580,7 @@
         "type": "textarea",
         "id": "otherapp",
         "label": "Other App code",
-        "visible_if": "{{ settings.reviews == 'other' }}"
+        
       },
       {
         "type": "paragraph",

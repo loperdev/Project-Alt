@@ -144,13 +144,13 @@
             "id": "bg",
             "label": "Banner Background",
             "default":"#eee",
-            "visible_if": "{{ section.settings.cbn }}"
+            
         },
         {
             "type": "image_picker",
             "id": "bgimg",
             "label": "Banner Image",
-            "visible_if": "{{ section.settings.cbn }}"
+            
 		}, 
        {
         "type": "range",
@@ -185,7 +185,7 @@
       {
         "type": "header",
         "content": "Products Per Row ===",
-        "visible_if": "{{ section.settings.sty == '2' }}"
+        
       },
       {
         "type": "range",
@@ -195,7 +195,7 @@
         "min": 2,
         "max": 7,
         "step": 1,
-        "visible_if": "{{ section.settings.sty == '2' }}"
+        
       },
       {
         "type": "range",
@@ -205,7 +205,7 @@
         "min": 1,
         "max": 5,
         "step": 1,
-        "visible_if": "{{ section.settings.sty == '2' }}"
+        
       },
       {
         "type": "range",
@@ -215,26 +215,26 @@
         "min": 1,
         "max": 3,
         "step": 1,
-        "visible_if": "{{ section.settings.sty == '2' }}"
+        
       },	
 	 {
             "type": "header",
             "content": "Slider Settings",
-            "visible_if": "{{ section.settings.sty == '2' }}"
+            
         },
  		{
             "type": "checkbox",
             "id": "loop",
             "label": "Infinite Loop",
             "default": false,
-            "visible_if": "{{ section.settings.sty == '2' }}"
+            
         },
  		{
             "type": "checkbox",
             "id": "autoplay",
             "label": "Auto-rotate List",
             "default": false,
-            "visible_if": "{{ section.settings.sty == '2' }}"
+            
         },
         {
             "type": "range",
@@ -245,21 +245,21 @@
             "max": 30,
             "step": 1,
             "unit": "Sec",
-            "visible_if": "{{ section.settings.sty == '2' }}"
+            
         },		
 		{
             "type": "checkbox",
             "id": "arrow",
             "label": "Show Arrows on Desktop?",
             "default": true,
-            "visible_if": "{{ section.settings.sty == '2' }}"
+            
         },
 		{
             "type": "checkbox",
             "id": "arrowm",
             "label": "Show Arrows on Mobile?",
             "default": false,
-            "visible_if": "{{ section.settings.sty == '2' }}"
+            
         },
       {
         "type": "header",
