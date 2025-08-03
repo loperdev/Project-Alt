@@ -1206,3 +1206,56 @@ class ProductRecommendations extends SlideSection {
     }
 }
 customElements.define('product-recommendations', ProductRecommendations);
+
+// Video hover functionality
+class VideoHoverHandler {
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    this.setupVideoHoverListeners();
+  }
+
+  setupVideoHoverListeners() {
+    // Handle video hover functionality
+    document.addEventListener('mouseenter', (e) => {
+      const videoHover = e.target.closest('.video-hover');
+      if (videoHover) {
+        this.handleVideoHover(videoHover, true);
+      }
+    });
+
+    document.addEventListener('mouseleave', (e) => {
+      const videoHover = e.target.closest('.video-hover');
+      if (videoHover) {
+        this.handleVideoHover(videoHover, false);
+      }
+    });
+  }
+
+  handleVideoHover(videoHover, isEntering) {
+    const video = videoHover.querySelector('.hover-video');
+    if (!video) return;
+
+    if (isEntering) {
+      // Start playing video on hover
+      videoHover.classList.add('playing');
+      video.play().catch(error => {
+        console.log('Video autoplay failed:', error);
+        // Fallback: show play button
+        videoHover.classList.remove('playing');
+      });
+    } else {
+      // Pause video when mouse leaves
+      videoHover.classList.remove('playing');
+      video.pause();
+      video.currentTime = 0; // Reset to beginning
+    }
+  }
+}
+
+// Initialize video hover functionality
+document.addEventListener('DOMContentLoaded', () => {
+  new VideoHoverHandler();
+});
