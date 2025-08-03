@@ -1218,26 +1218,32 @@ class VideoHoverHandler {
   }
 
   setupVideoHoverListeners() {
-    // Handle video hover functionality
+    // Handle video hover functionality using proper event delegation
     document.addEventListener('mouseenter', (e) => {
-      // Check if e.target is a DOM element
+      // Check if e.target is a DOM element and find the grid wrapper
       if (e.target && typeof e.target.closest === 'function') {
-        const videoHover = e.target.closest('.video-hover');
-        if (videoHover) {
-          this.handleVideoHover(videoHover, true);
+        const gridWrapper = e.target.closest('.grid_img_wr');
+        if (gridWrapper) {
+          const videoHover = gridWrapper.querySelector('.video-hover');
+          if (videoHover) {
+            this.handleVideoHover(videoHover, true);
+          }
         }
       }
-    });
+    }, true);
 
     document.addEventListener('mouseleave', (e) => {
-      // Check if e.target is a DOM element
+      // Check if e.target is a DOM element and find the grid wrapper
       if (e.target && typeof e.target.closest === 'function') {
-        const videoHover = e.target.closest('.video-hover');
-        if (videoHover) {
-          this.handleVideoHover(videoHover, false);
+        const gridWrapper = e.target.closest('.grid_img_wr');
+        if (gridWrapper) {
+          const videoHover = gridWrapper.querySelector('.video-hover');
+          if (videoHover) {
+            this.handleVideoHover(videoHover, false);
+          }
         }
       }
-    });
+    }, true);
   }
 
   handleVideoHover(videoHover, isEntering) {
