@@ -78,14 +78,25 @@
     {%- if istrnsparent -%}
         .hdr_wrap:not(.sticky_hdr) { position:absolute; left:0; right:0; }
         .hdr_wrap.sticky_hdr, .hdr_wrap.header-hidden { position:fixed; }
-        html:not(.searchact) .hdr_wrap:not(.sticky_hdr,:hover) { background-color:transparent; border-color:transparent; }
-        html:not(.searchact) .hdr_wrap:not(.sticky_hdr,:hover) .hdicon,
-        html:not(.searchact) .hdr_wrap:not(.sticky_hdr,:hover) .lvl1 > a,
-        html:not(.searchact) .hdr_wrap:not(.sticky_hdr,:hover) .crlgTtl { color:{{ sec_st.thcl }}!important; }
-        html:not(.searchact) .hdr_wrap:not(.sticky_hdr,:hover) .stlogo,
-        :is(.hdr_wrap, .sticky_hdr):hover .trlogo, .sticky_hdr .trlogo,
-        :is(.actHmbNav, .searchact) .hdr_wrap .trlogo { display:none !important; }
-        .hdr_wrap:not(.sticky_hdr,:hover) #main_navwr { background-color:transparent; border-color:transparent; }
+        @media only screen and (min-width:1024px){
+          html:not(.searchact) .hdr_wrap:not(.sticky_hdr,:hover) { background-color:transparent; border-color:transparent; }
+          html:not(.searchact) .hdr_wrap:not(.sticky_hdr,:hover) .hdicon,
+          html:not(.searchact) .hdr_wrap:not(.sticky_hdr,:hover) .lvl1 > a,
+          html:not(.searchact) .hdr_wrap:not(.sticky_hdr,:hover) .crlgTtl { color:{{ sec_st.thcl }}!important; }
+          html:not(.searchact) .hdr_wrap:not(.sticky_hdr,:hover) .stlogo,
+          :is(.hdr_wrap, .sticky_hdr):hover .trlogo, .sticky_hdr .trlogo,
+          :is(.actHmbNav, .searchact) .hdr_wrap .trlogo { display:none !important; }
+          .hdr_wrap:not(.sticky_hdr,:hover) #main_navwr { background-color:transparent; border-color:transparent; }
+        }
+        @media only screen and (max-width:1023px){
+          .hdr_wrap { background-color:{{ sec_st.bg }} !important; border-color:{{ sec_st.hdrbd_cl | default: 'transparent' }} !important; }
+          .hdr_wrap .hdicon,
+          .hdr_wrap .lvl1 > a,
+          .hdr_wrap .crlgTtl { color:{{ sec_st.cl }} !important; }
+          .hdr_wrap .trlogo { display:none !important; }
+          .hdr_wrap .stlogo { display:block !important; }
+          .hdr_wrap #main_navwr { background-color:{{ sec_st.bg }} !important; border-color:{{ sec_st.hdrbd_cl | default: 'transparent' }} !important; }
+        }
         .hdr_wrap .searchDrawer { top:var(--hdrHtm); }
         @media only screen and (min-width:1024px){
           .hdr_wrap .searchDrawer { top:var(--hdrHt); }

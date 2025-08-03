@@ -199,6 +199,9 @@ class VariantSelects extends HTMLElement {
     const addButtonText = productForm.querySelector('[name="add"] > span');
     if(!addButton) return;
 
+    // Check if this is a customizer product
+    const isCustomizerProduct = addButton.classList.contains('customizer-trigger');
+
     if(disable){
       addButton.setAttribute('disabled', 'disabled');
       if(text) addButtonText.textContent = text;
@@ -209,7 +212,12 @@ class VariantSelects extends HTMLElement {
       if(qty < 1 && this.currentVariant.inventory_management == "shopify"){
         addButtonText.textContent = window.variantStrings.preOrder;
       } else{
-        addButtonText.textContent = window.variantStrings.addToCart;
+        // For customizer products, always show "Customise & Order" instead of "Add to cart"
+        if(isCustomizerProduct) {
+          addButtonText.textContent = "✨ Customise & Order";
+        } else {
+          addButtonText.textContent = window.variantStrings.addToCart;
+        }
       }
     }
     if(!modifyClass) return;
@@ -228,7 +236,17 @@ class VariantSelects extends HTMLElement {
     const qtyRules = document.getElementById(`Quantity-Rules-${this.dataset.section}`);
 
     if(!addButton) return;
-    addButtonText.textContent = window.variantStrings.unavailable;
+    
+    // Check if this is a customizer product
+    const isCustomizerProduct = addButton.classList.contains('customizer-trigger');
+    
+    // For customizer products, show "Sold Out" instead of "Unavailable"
+    if(isCustomizerProduct) {
+      addButtonText.textContent = "Sold Out";
+    } else {
+      addButtonText.textContent = window.variantStrings.unavailable;
+    }
+    
     if(price) price.classList.add('hidden');
     if(inventory) inventory.classList.add('hidden');
     if(sku) sku.classList.add('hidden');

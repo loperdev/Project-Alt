@@ -93,10 +93,6 @@
     <input type="radio" id="{{ input_id }}" name="{{ option.name }}" value="{{ value | escape }}" form="{{ product_form_id }}"
       {% if option.selected_value == value %}checked{% endif %} class="swatchInput frame-option dn{% if option_disabled %} disabled{% endif %}" data-frame-type="{{ value | downcase }}">
       <label class="swatchLbl frame-swatch" for="{{ input_id }}">{{ value -}}{{ label_unavailable }}</label>
-  {%- elsif is_orientation or is_size -%}
-    <input type="radio" id="{{ input_id }}" name="{{ option.name }}" value="{{ value | escape }}" form="{{ product_form_id }}"
-      {% if option.selected_value == value %}checked{% endif %} class="swatchInput {% if is_orientation %}orientation-option{% else %}size-option{% endif %} dn{% if option_disabled %} disabled{% endif %}" data-{% if is_orientation %}orientation{% else %}size{% endif %}-type="{{ value | downcase }}">
-      <label class="swatchLbl {% if is_orientation %}orientation-swatch{% else %}size-swatch{% endif %}" for="{{ input_id }}">{{ value -}}{{ label_unavailable }}</label>
   {%- elsif othervr == 'sw' and is_color == false -%}
     <input type="radio" id="{{ input_id }}" name="{{ option.name }}" value="{{ value | escape }}" form="{{ product_form_id }}"
       {% if option.selected_value == value %}checked{% endif %} class="swatchInput dn{% if option_disabled %} disabled{% endif %}">

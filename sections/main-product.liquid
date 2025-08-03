@@ -548,10 +548,7 @@
                                       assign show_dynamic_checkout = true
                                   endif
                               -%}
-                              <!-- Customizer Button - Outside of Form -->
-                              <div class="mb15">
-                                  {% render 'product-customizer' %}
-                              </div>
+
                               
                               <product-form class="db product-form" data-hide-errors="{{ gift_card_recipient_feature_active }}" data-section-id="{{ section.id }}">
                                   <div class="product-form__error-message-wrapper ermsg mb15" role="alert" hidden>
@@ -578,7 +575,7 @@
                                               endif
                                           -%}
                                           <div class="fl gap mb15" style="--gap:10px;">
-                                              <button id="ProductSubmitButton-{{ section.id }}" type="submit" name="add" class="btn {{ block.settings.atc-style }} pr_btn product-form__submit"
+                                              <button id="ProductSubmitButton-{{ section.id }}" type="button" name="add" class="btn {{ block.settings.atc-style }} pr_btn product-form__submit customizer-trigger"
                                                   {% if current_variant.available == false or quantity_rule_soldout %}disabled{% endif %}>
                                                   <span class="txt">
                                                       {%- if current_variant.available == false or quantity_rule_soldout -%}
@@ -586,7 +583,7 @@
                                                       {%- elsif current_variant.available and current_variant.inventory_quantity < 1 and current_variant.inventory_management == "shopify" -%}
                                                           {{ 'products.product.pre_order' | t }}
                                                       {%- else -%}
-                                                          {{ 'products.product.add_to_cart' | t }}
+                                                          ✨ Customise & Order
                                                       {%- endif -%}
                                                   </span>
                                                   <div class="loading__spinner hidden"><svg class="at-icon at-spin"><use xlink:href="#icon-loading"></use></svg></div>
@@ -617,6 +614,9 @@
                                     
                                   {%- endform -%}
                               </product-form>
+                              
+                              <!-- Customizer Modal -->
+                              {% render 'product-customizer' %}
                           </div>
                         {%- else -%}
                             <button type="button" class="btn pr_btn btn-enquire fl f-aic f-jcc popup-link mb{{ blk_st.bm }}" data-popup="inquiry" aria-haspopup="dialog">
@@ -4102,6 +4102,23 @@
 				}          
 			]
 		}
-	]
-}
-{% endschema %}
+		]
+	}
+	{% endschema %}
+	
+	<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		// Find the customizer trigger button
+		const customizerTrigger = document.querySelector('.customizer-trigger');
+		const openCustomizerBtn = document.getElementById('openCustomizerBtn');
+		
+		if (customizerTrigger && openCustomizerBtn) {
+			// Add click event to the form button to trigger customizer
+			customizerTrigger.addEventListener('click', function(e) {
+				e.preventDefault();
+				// Trigger the customizer button click
+				openCustomizerBtn.click();
+			});
+		}
+	});
+	</script>

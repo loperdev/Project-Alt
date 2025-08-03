@@ -44,6 +44,23 @@
     }
     #main-collection-filters { background:{{ section_st.sidebar_bg }}; border:1px solid {{ section_st.sidebar_bdr }};}
  {%- endif -%}
+ 
+ {%- if section_st.sticky_sidebar and section_st.sbpos != 'top' -%}
+   @media only screen and (min-width:1024px){
+     .sidebar.sb_filter { 
+       position: sticky; 
+       top: 20px; 
+       height: fit-content; 
+       max-height: calc(100vh - 40px);
+       overflow-y: auto;
+       z-index: 10;
+       transition: top 0.3s ease;
+     }
+     .sticky_hdr ~ .main-content .sidebar.sb_filter {
+       top: calc(var(--hdrHt, 80px) + 20px);
+     }
+   }
+ {%- endif -%}
 
  {%- if section_st.tbg -%}
    .flTop { padding:10px 20px; background-color:var(--filter_bg); border:1px solid var(--tfilter_bdr); }
@@ -111,13 +128,15 @@
 
 {%- capture products_list -%}
       {%- if collection.products.size == 0 -%}
-          <div id="collectionPr" class="collection" id="collectionPr" data-id="{{ section.id }}">
-            <div class="collection--empty">
-              <p class="collection-product-count light hide" role="status">{{ 'collections.general.product_count' | t: product_count: collection.products_count, count: collection.all_products_count }}</p>
-              <div class="title-wrapper w_100 fl f-jcc">
-                <div class="title title--primary">
-                  <h3 class="mb5">{{ 'collections.general.empty' | t }}</h3>
-                  <p>{{ 'collections.general.use_fewer_filters_html' | t: link: collection.url, class: "underlined-link link" }}</p>
+          <div class="collection">
+            <div id="collectionPr" class="grid rwcols-1 rwcols-md-1 rwcols-lg-1 grid-products" data-id="{{ section.id }}">
+              <div class="collection--empty">
+                <p class="collection-product-count light hide" role="status">{{ 'collections.general.product_count' | t: product_count: collection.products_count, count: collection.all_products_count }}</p>
+                <div class="title-wrapper w_100 fl f-jcc">
+                  <div class="title title--primary">
+                    <h3 class="mb5">{{ 'collections.general.empty' | t }}</h3>
+                    <p>{{ 'collections.general.use_fewer_filters_html' | t: link: collection.url, class: "underlined-link link" }}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -417,6 +436,14 @@
             "id":"sidebar_bdr",
             "label":"Border",
             "default": "#eee",
+            "visible_if": "{{ section.settings.sbpos != 'top' and section.settings.filters }}",
+        },
+        {
+            "type":"checkbox",
+            "id":"sticky_sidebar",
+            "label":"Enable sticky sidebar?",
+            "default": true,
+            "info":"Sidebar will remain visible when scrolling through products",
             "visible_if": "{{ section.settings.sbpos != 'top' and section.settings.filters }}",
         },       
 		{

@@ -78,6 +78,7 @@ class FiltersForm extends HTMLElement {
       this.selectFilters();
       this.priceRangeSlider();
       this.removeFilters();
+      this.initStickySidebar();
   }
   selectFilters(){
     var filters = this.querySelectorAll('select, input');
@@ -188,6 +189,36 @@ class FiltersForm extends HTMLElement {
              blk.removeAttribute('open');
         });
       });
+  }
+  initStickySidebar(){
+    // Only apply sticky behavior on desktop
+    if (window.innerWidth < 1024) return;
+    
+    const sidebar = this.querySelector('.sidebar.sb_filter');
+    if (!sidebar) return;
+    
+    // Check if sticky sidebar is enabled via CSS
+    const computedStyle = window.getComputedStyle(sidebar);
+    if (computedStyle.position !== 'sticky') return;
+    
+    // Add smooth scrolling to sidebar content
+    sidebar.style.scrollBehavior = 'smooth';
+    
+    // Handle header height changes for sticky header
+    const updateSidebarTop = () => {
+      const header = document.querySelector('.sticky_hdr');
+      if (header) {
+        const headerHeight = header.offsetHeight;
+        sidebar.style.top = `${headerHeight + 20}px`;
+      }
+    };
+    
+    // Update on scroll and resize
+    window.addEventListener('scroll', updateSidebarTop);
+    window.addEventListener('resize', updateSidebarTop);
+    
+    // Initial update
+    updateSidebarTop();
   }
 }
 customElements.define("filters-form", FiltersForm);

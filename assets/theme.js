@@ -664,12 +664,10 @@ checkWishlist();
 // Frame/Color Interaction Handler
 class FrameColorHandler {
   constructor() {
-    console.log('🎯 FrameColorHandler constructor called');
     this.init();
   }
 
   init() {
-    console.log('🎯 FrameColorHandler init called, readyState:', document.readyState);
     // Wait for DOM to be ready
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => this.setupListeners());
@@ -679,20 +677,15 @@ class FrameColorHandler {
   }
 
   setupListeners() {
-    console.log('🎯 FrameColorHandler setupListeners called');
-    
     // Listen for variant changes
     document.addEventListener('change', (e) => {
-      console.log('🎯 Change event detected:', e.target);
       if (e.target.matches('.frame-option, .swatchInput')) {
-        console.log('🎯 Frame/swatch input changed, calling handler');
         this.handleFrameColorInteraction();
       }
     });
 
     // Initial setup
     setTimeout(() => {
-      console.log('🎯 Initial frame color interaction check');
       this.handleFrameColorInteraction();
     }, 100);
   }
@@ -710,25 +703,25 @@ class FrameColorHandler {
         const value = input.value.toLowerCase();
         // Check if this looks like a frame option
         if (value.includes('framed') || value.includes('frame') || 
-            value.includes('unframed') || value.includes('frameless')) {
+            value.includes('unframed') || value.includes('frameless') || 
+            value.includes('digital')) {
           selectedFrameValue = value;
         }
       }
     });
 
-    console.log('🔍 Frame detection - selected value:', selectedFrameValue);
-
     // Update data attribute for CSS targeting
     if (selectedFrameValue.includes('unframed') || 
         selectedFrameValue.includes('frameless') || 
-        selectedFrameValue.includes('no frame')) {
-      console.log('🚫 HIDING regular colors for unframed');
+        selectedFrameValue.includes('no frame') ||
+        selectedFrameValue.includes('digital')) {
       variantSelects.setAttribute('data-frame-selected', selectedFrameValue);
       this.hideRegularColors(variantSelects); // Hide regular colors, show only frameless
+      this.handlePrintSizeOptions(variantSelects, selectedFrameValue); // Handle print size options
     } else if (selectedFrameValue.includes('framed') || selectedFrameValue.includes('frame')) {
-      console.log('✅ SHOWING regular colors for framed');
       variantSelects.removeAttribute('data-frame-selected');
       this.showRegularColors(variantSelects); // Show regular colors, hide frameless
+      this.showAllPrintSizeOptions(variantSelects); // Show all print size options
     }
 
     // Update customizer data
@@ -736,8 +729,6 @@ class FrameColorHandler {
   }
 
   hideRegularColors(container) {
-    console.log('🔍 hideRegularColors called');
-    
     // HIDE the entire color section when unframed is selected
     const colorFieldsets = container.querySelectorAll('fieldset[data-option-type="color"]');
     colorFieldsets.forEach(fieldset => {
@@ -747,7 +738,6 @@ class FrameColorHandler {
       fieldset.style.setProperty('height', '0', 'important');
       fieldset.style.setProperty('margin', '0', 'important');
       fieldset.style.setProperty('padding', '0', 'important');
-      console.log('🚫 Hidden entire color section');
     });
 
     // SHOW frameless colors (if any exist) - but these should be in a separate container
@@ -764,8 +754,6 @@ class FrameColorHandler {
   }
 
   showRegularColors(container) {
-    console.log('🔍 showRegularColors called');
-    
     // SHOW the entire color section when framed is selected
     const colorFieldsets = container.querySelectorAll('fieldset[data-option-type="color"]');
     colorFieldsets.forEach(fieldset => {
@@ -775,7 +763,6 @@ class FrameColorHandler {
       fieldset.style.removeProperty('height');
       fieldset.style.removeProperty('margin');
       fieldset.style.removeProperty('padding');
-      console.log('✅ Shown entire color section (restored natural styles)');
     });
 
     // HIDE frameless colors when framed is selected
@@ -791,13 +778,14 @@ class FrameColorHandler {
     });
   }
 
-  updateCustomizerFrameData(frameValue) {
+    updateCustomizerFrameData(frameValue) {
     // Update global customizer config if it exists
     if (window.customizerConfig) {
       window.customizerConfig.frameType = frameValue;
       window.customizerConfig.isFrameless = frameValue.includes('unframed') || 
                                            frameValue.includes('frameless') || 
-                                           frameValue.includes('no frame');
+                                           frameValue.includes('no frame') ||
+                                           frameValue.includes('digital');
     }
 
     // Trigger custom event for customizer
@@ -805,18 +793,91 @@ class FrameColorHandler {
       detail: {
         frameType: frameValue,
         isFrameless: frameValue.includes('unframed') || 
-                    frameValue.includes('frameless') || 
-                    frameValue.includes('no frame')
+                     frameValue.includes('frameless') || 
+                     frameValue.includes('no frame') ||
+                     frameValue.includes('digital')
       }
     });
     document.dispatchEvent(event);
   }
+
+  handlePrintSizeOptions(container, frameValue) {
+    console.log('handlePrintSizeOptions called with frameValue:', frameValue);
+    // Handle print size options based on frame selection
+    if (frameValue.includes('digital')) {
+      console.log('Digital selected, hiding non-A4 options');
+      this.hidePrintSizeOptionsForDigital(container);
+    } else {
+      console.log('Non-digital selected, showing all options');
+      this.showAllPrintSizeOptions(container);
+    }
+  }
+
+  hidePrintSizeOptionsForDigital(container) {
+    console.log('hidePrintSizeOptionsForDigital called');
+    
+    // Find print size container - search in entire document since it might be outside variant-selects
+    const printSizeContainer = document.querySelector('.cl-ps');
+    if (!printSizeContainer) {
+      console.log('No .cl-ps container found in document');
+      return;
+    }
+    
+    // Find all print size buttons
+    const printSizeButtons = printSizeContainer.querySelectorAll('.cl-ps__btn');
+    console.log('Found print size buttons:', printSizeButtons.length);
+    
+    printSizeButtons.forEach(button => {
+      const dataValue = button.getAttribute('data-value') || '';
+      const valueLower = dataValue.toLowerCase();
+      console.log('Button data-value:', dataValue, 'Lowercase:', valueLower);
+      
+      // Hide options that are not A4 for digital
+      if (valueLower.includes('30 x 40cm') || valueLower.includes('12 x 16') || 
+          valueLower.includes('18 x 24') || valueLower.includes('inches')) {
+        console.log('Hiding button:', dataValue);
+        button.style.display = 'none';
+        button.disabled = true;
+      } else if (valueLower.includes('album size') || valueLower.includes('a4')) {
+        console.log('Showing A4 button:', dataValue);
+        // Show and enable A4 option
+        button.style.display = 'block';
+        button.disabled = false;
+        
+        // If A4 is not already selected, select it
+        if (!button.classList.contains('is-active')) {
+          console.log('Auto-selecting A4 button');
+          // Remove active class from all buttons
+          printSizeButtons.forEach(btn => btn.classList.remove('is-active'));
+          // Add active class to A4 button
+          button.classList.add('is-active');
+          
+          // Trigger click event to update the form
+          button.click();
+        }
+      } else {
+        console.log('Button not matched for hiding/showing:', dataValue);
+      }
+    });
+  }
+
+  showAllPrintSizeOptions(container) {
+    // Find print size container - search in entire document
+    const printSizeContainer = document.querySelector('.cl-ps');
+    if (!printSizeContainer) return;
+    
+    // Show all print size buttons
+    const printSizeButtons = printSizeContainer.querySelectorAll('.cl-ps__btn');
+    
+    printSizeButtons.forEach(button => {
+      button.style.display = 'block';
+      button.disabled = false;
+    });
+  }
 }
 
 // Initialize frame/color handler
-console.log('🎯 About to initialize FrameColorHandler');
 new FrameColorHandler();
-console.log('🎯 FrameColorHandler initialized');
 
 class CountDown extends HTMLElement {
   constructor(){

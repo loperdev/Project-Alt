@@ -1,25 +1,5 @@
-<!-- Customise & Order Button -->
-<div style="margin-bottom: 15px; position: relative; z-index: 1000;">
-  <button type="button" id="openCustomizerBtn" style="
-    display: inline-block;
-    background-color: #f3c623;
-    text-align: center;
-    color: #000;
-    font-weight: 600;
-    border: none;
-    padding: 12px 28px;
-    width: 100%;
-    font-size: 16px;
-    border-radius: 9999px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: relative;
-    z-index: 1001;
-  ">
-    ✨ Customise & Order
-  </button>
-</div>
+<!-- Hidden Customizer Button (for JavaScript trigger) -->
+<button type="button" id="openCustomizerBtn" style="display: none;"></button>
 
 <!-- Enhanced Modal with Loading States -->
 <div id="customizerFullscreenWrapper" style="
@@ -55,7 +35,7 @@
       animation: spin 1s linear infinite;
       margin: 0 auto 20px;
     "></div>
-    <p style="margin: 0; font-size: 16px;">Loading your customizer...</p>
+    <p style="margin: 0; font-size: 16px;">Loading your customiser...</p>
   </div>
 
   <!-- Iframe Container -->
@@ -232,6 +212,22 @@
 </style>
 
 <script>
+  // Map style display names for cart
+  const mapStyleDisplayNames = {
+    'purple': 'Twilight Bloom',
+    'blueWhite': 'Seabreeze',
+    'pink': 'Blush Tide',
+    'desertInk': 'Midnight Sail',
+    'yellow': 'Golden Sail',
+    'blue1': 'Harbour Twilight',
+    'streets': 'Retro Grid',
+    'sage': 'Sage Coastline',
+    'beige': 'Sand Dune',
+    'topo': 'Explorer',
+    'backdrop': 'Ink & Ice',
+    'streetsDark': 'Classic Dark'
+  };
+
   // Enhanced configuration with better error handling
   const customizerConfig = {
     productId: {{ product.id }},
@@ -288,7 +284,7 @@
         frameType = option;
       }
       // Check for frameless indicators
-      if (option.includes('unframed') || option.includes('frameless') || option.includes('no frame')) {
+      if (option.includes('unframed') || option.includes('frameless') || option.includes('no frame') || option.includes('digital')) {
         isFrameless = true;
         frameType = option;
       }
@@ -302,10 +298,6 @@
     
     // Only log if variant actually changed
     if (!window.lastLoggedVariantId || window.lastLoggedVariantId !== variant?.id) {
-      console.log('🎨 Calculating preset for variant:', variant?.id, {frameType, frameColor, isFrameless});
-      console.log('🏷️ Product title:', productTitle);
-      console.log('🆔 Product ID:', productId);
-      console.log('🔍 All options:', {option1, option2, option3});
       window.lastLoggedVariantId = variant?.id;
     }
     
@@ -322,7 +314,7 @@
       'golden sail memory map': 'yellow',               // Golden Sail ✅
       'harbor twilight memory map': 'blue1',            // Harbour Twilight
       'harbour twilight memory map': 'blue1',           // Harbour Twilight
-      'midnight sail memory map': 'monochrome',         // Midnight Sail
+      'midnight sail memory map': 'beigeBlack',         // Midnight Sail
       'classic ocean passage map': 'streets',           // Retro Grid
       'blush horizon memory map': 'pink',               // Blush Tide
       'sage coastline memory map': 'sage',              // Sage Coastline ✅
@@ -336,13 +328,12 @@
     };
 
     // Check for exact title match first
-    if (titleToMapStyleMap[productTitle]) {
-      preset.mapStyle = titleToMapStyleMap[productTitle];
-      if (!window.lastLoggedMapStyle || window.lastLoggedMapStyle !== preset.mapStyle) {
-        console.log(`🎯 Found mapStyle: ${preset.mapStyle}`);
-        window.lastLoggedMapStyle = preset.mapStyle;
-      }
-    } else {
+          if (titleToMapStyleMap[productTitle]) {
+        preset.mapStyle = titleToMapStyleMap[productTitle];
+        if (!window.lastLoggedMapStyle || window.lastLoggedMapStyle !== preset.mapStyle) {
+          window.lastLoggedMapStyle = preset.mapStyle;
+        }
+      } else {
       // Fallback: Check by keywords in title
       const keywordToMapStyleMap = {
         'blush': 'pink',           // Blush Tide
@@ -374,16 +365,15 @@
       };
 
       // Check by keywords
-      for (const [keyword, mapStyle] of Object.entries(keywordToMapStyleMap)) {
-        if (productTitle.includes(keyword) || customizerConfig.productHandle.includes(keyword)) {
-          preset.mapStyle = mapStyle;
-          if (!window.lastLoggedMapStyle || window.lastLoggedMapStyle !== preset.mapStyle) {
-            console.log(`🎯 Found mapStyle: ${preset.mapStyle}`);
-            window.lastLoggedMapStyle = preset.mapStyle;
+              for (const [keyword, mapStyle] of Object.entries(keywordToMapStyleMap)) {
+          if (productTitle.includes(keyword) || customizerConfig.productHandle.includes(keyword)) {
+            preset.mapStyle = mapStyle;
+            if (!window.lastLoggedMapStyle || window.lastLoggedMapStyle !== preset.mapStyle) {
+              window.lastLoggedMapStyle = preset.mapStyle;
+            }
+            break;
           }
-          break;
         }
-      }
 
       // Check by specific product IDs (fallback)
       if (!preset.mapStyle) {
@@ -398,7 +388,6 @@
         if (productIdMapStyles[productId]) {
           preset.mapStyle = productIdMapStyles[productId];
           if (!window.lastLoggedMapStyle || window.lastLoggedMapStyle !== preset.mapStyle) {
-            console.log(`🎯 Found mapStyle: ${preset.mapStyle}`);
             window.lastLoggedMapStyle = preset.mapStyle;
           }
         }
@@ -410,7 +399,6 @@
       // If frameless/unframed is selected, set frame to None
       preset.frame = 'None';
       if (!window.lastLoggedFrame || window.lastLoggedFrame !== preset.frame) {
-        console.log(`🖼️ Frameless selected: ${preset.frame}`);
         window.lastLoggedFrame = preset.frame;
       }
     } else if (frameColor) {
@@ -439,7 +427,6 @@
       if (frameColorMap[frameColor]) {
         preset.frame = frameColorMap[frameColor];  // Use 'frame' property name
         if (!window.lastLoggedFrame || window.lastLoggedFrame !== preset.frame) {
-          console.log(`🖼️ Found frame color: ${preset.frame}`);
           window.lastLoggedFrame = preset.frame;
         }
       } else {
@@ -449,33 +436,20 @@
     } else if (frameType && frameType.includes('framed')) {
       // If we detected "framed" but no specific color, default to Black
       preset.frame = 'Black';
-      console.log(`🖼️ Default frame for framed variant: ${preset.frame}`);
     }
 
     // Only return preset if we have actual data (mapStyle OR frame variants exist)
     const hasMapStyle = !!preset.mapStyle;
     const hasFrameVariants = !!(frameType || frameColor || isFrameless);
     
-    console.log('🔍 Detection results:', {
-      frameType, 
-      frameColor, 
-      isFrameless, 
-      hasMapStyle, 
-      hasFrameVariants,
-      'preset.mapStyle': preset.mapStyle,
-      'preset.frame': preset.frame
-    });
-    
     if (hasMapStyle || hasFrameVariants) {
       if (!window.lastLoggedPreset || JSON.stringify(window.lastLoggedPreset) !== JSON.stringify(preset)) {
-        console.log('✅ Final preset:', preset, {hasMapStyle, hasFrameVariants});
         window.lastLoggedPreset = preset;
       }
       return preset;
     }
     
     // No preset data - product should open normally without locked fields
-    console.log('🔓 No preset data found - customizer will open unlocked');
     return null;
   }
 
@@ -483,15 +457,53 @@
   const productDefaultPreset = calculatePresetForVariant(customizerConfig.selectedVariant);
 
   /**
+   * FRAME SELECTION CHANGE LISTENERS
+   */
+  function setupFrameSelectionListeners() {
+    // Listen for frame option changes
+    document.addEventListener('change', function(e) {
+      if (e.target.classList.contains('frame-option') || e.target.closest('.frame-option')) {
+        const selectedFrame = e.target.value || e.target.closest('.frame-option').value;
+        updateFrameSelection(selectedFrame);
+      }
+    });
+
+    // Listen for radio button changes
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('frame-swatch') || e.target.closest('.frame-swatch')) {
+        const frameInput = e.target.closest('label').querySelector('input[type="radio"]');
+        if (frameInput) {
+          const selectedFrame = frameInput.value;
+          updateFrameSelection(selectedFrame);
+        }
+
+      }
+    });
+
+    // Initial frame selection check
+    setTimeout(() => {
+      const checkedFrame = document.querySelector('.frame-option:checked');
+      if (checkedFrame) {
+        updateFrameSelection(checkedFrame.value);
+      }
+    }, 100);
+  }
+
+  function updateFrameSelection(frameType) {
+    const variantSelects = document.querySelectorAll('.variant-selects');
+    variantSelects.forEach(select => {
+      select.setAttribute('data-frame-selected', frameType.toLowerCase());
+    });
+  }
+
+  /**
    * ENHANCED VARIANT CHANGE DETECTION - Force re-detection
    */
   function setupVariantChangeListeners() {
     if (window.variantListenersSetup) {
-      console.log('⚠️ Variant listeners already set up, skipping');
       return;
     }
     
-    console.log('🔧 Setting up variant change listeners...');
     window.variantListenersSetup = true;
 
     let lastProcessedVariantId = null;
@@ -558,7 +570,6 @@
       }
     });
 
-    console.log('✅ Variant change listeners set up');
   }
 
   /**
@@ -603,8 +614,6 @@
       return;
     }
 
-    console.log(`🎯 Variant changed (${source}):`, variant.id);
-    
     // Update the global config
     customizerConfig.selectedVariant = variant;
     
@@ -614,7 +623,6 @@
     if (newPreset) {
       // Don't send to iframe - only store for when customizer opens
       window.lastCalculatedPreset = newPreset;
-      console.log('🔄 Preset calculated (not sent):', newPreset);
     }
 
     // Update button state
@@ -647,21 +655,18 @@
         if (e.key === 'F5') {
           e.preventDefault();
           e.stopPropagation();
-          console.log('🚫 F5 refresh prevented - customizer is open');
           return false;
         }
         
         if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
           e.preventDefault();
           e.stopPropagation();
-          console.log('🚫 Ctrl+R/Cmd+R refresh prevented - customizer is open');
           return false;
         }
         
         if (e.ctrlKey && e.key === 'F5') {
           e.preventDefault();
           e.stopPropagation();
-          console.log('🚫 Ctrl+F5 hard refresh prevented - customizer is open');
           return false;
         }
       }
@@ -670,7 +675,6 @@
     const handlePopState = (e) => {
       if (customizerState.isOpen) {
         history.pushState(null, null, window.location.pathname);
-        console.log('🚫 Browser navigation prevented - customizer is open');
         e.preventDefault();
         return false;
       }
@@ -680,7 +684,6 @@
       if (customizerState.isOpen) {
         e.preventDefault();
         e.returnValue = '';
-        console.log('🚫 Page unload prevented - customizer is open');
         return '';
       }
     };
@@ -705,7 +708,6 @@
       window.removeEventListener('beforeunload', handleBeforeUnload);
       
       delete customizerState.preventRefreshHandlers;
-      console.log('✅ Refresh prevention removed');
     }
   }
 
@@ -713,8 +715,6 @@
     const iframe = document.getElementById("customizerIframe");
     const wrapper = document.getElementById("customizerFullscreenWrapper");
     const loading = document.getElementById("customizerLoading");
-
-    console.log('🚪 Closing customizer');
 
     removeRefreshPrevention();
 
@@ -771,7 +771,6 @@
         loading.style.display = 'none';
         iframe.style.opacity = '1';
         
-        console.log('✅ Iframe loaded successfully');
         resolve();
       };
       
@@ -780,7 +779,6 @@
         iframe.removeEventListener('load', onLoad);
         iframe.removeEventListener('error', onError);
         
-        console.error('❌ Iframe failed to load');
         reject(new Error('Iframe failed to load'));
       };
       
@@ -792,7 +790,6 @@
 
   async function openCustomizer() {
     if (customizerState.isOpen || customizerState.isLoading) {
-      console.log('⚠️ Customizer already open or loading');
       return;
     }
 
@@ -800,7 +797,6 @@
     const wrapper = document.getElementById("customizerFullscreenWrapper");
     
     if (!btn || !wrapper) {
-      console.error('❌ Required elements not found');
       return;
     }
 
@@ -823,7 +819,6 @@
       });
 
       const iframeUrl = `https://lankylemon-2fe9e.web.app/?${params}`;
-      console.log('🚀 Opening customizer:', iframeUrl);
 
       wrapper.style.display = "block";
       document.body.classList.add("modal-open");
@@ -838,22 +833,15 @@
       // Send the latest calculated preset (ONCE only) - or initialization message
       const latestPreset = window.lastCalculatedPreset || calculatePresetForVariant(customizerConfig.selectedVariant);
       if (latestPreset && (latestPreset.mapStyle || latestPreset.frame)) {
-        console.log('📤 Sending latest preset to iframe:', latestPreset);
         setTimeout(() => sendPresetToIframe(latestPreset), 1000);
       } else {
         // Send a basic initialization message for products without frame/mapStyle
-        console.log('🔓 Sending initialization message - customizer will open unlocked');
         setTimeout(() => sendInitializationMessage(), 1000);
       }
 
-      console.log('✅ Customizer opened successfully');
-
     } catch (error) {
-      console.error('❌ Failed to open customizer:', error);
-      
       if (customizerState.retryCount < customizerState.maxRetries) {
         customizerState.retryCount++;
-        console.log(`🔄 Retrying... (${customizerState.retryCount}/${customizerState.maxRetries})`);
         setTimeout(() => openCustomizer(), 2000);
         return;
       }
@@ -878,28 +866,17 @@
 
   function processOrderMessage(event) {
     if (event.origin !== "https://lankylemon-2fe9e.web.app") {
-      console.log('🚫 Ignored message from unauthorized origin:', event.origin);
       return;
     }
 
-    console.log('📨 Received message from Angular:', event.data);
-    console.log('📨 Message type:', event.data?.type);
-    console.log('📨 Full event:', event);
-
     switch (event.data.type) {
       case 'PRESET_RECEIVED':
-        console.log("✅ Angular confirmed preset received successfully");
-        console.log("✅ Preset data:", event.data.preset);
         break;
 
       case 'PRESET_APPLIED':
-        console.log("✅ Angular confirmed preset applied successfully");
-        console.log("✅ Applied preset:", event.data.preset);
         break;
 
       case 'PRESET_ERROR':
-        console.error("❌ Angular failed to apply preset:", event.data.error);
-        console.error("❌ Failed preset data:", event.data.preset);
         break;
 
       case 'ORDER_SUBMITTED':
@@ -907,16 +884,14 @@
         break;
 
       case 'ORDER_CANCELLED':
-        console.log("🚪 ORDER_CANCELLED received");
         closeCustomizer();
         break;
 
       case 'unsavedChanges':
-        console.log("⚠️ User has unsaved changes in customizer");
         break;
 
       default:
-        console.log('ℹ️ Unknown message type:', event.data.type, event.data);
+        break;
     }
   }
 
@@ -981,15 +956,7 @@
   }
 
   function handleOrderSubmission(messageData) {
-    console.log("🔁 ORDER_SUBMITTED received");
-    console.log("🔒 State check:", {
-      sessionActive: customizerState.sessionActive,
-      orderProcessed: customizerState.orderProcessed
-    });
-    console.log("📦 Full message data:", messageData);
-
     if (!customizerState.sessionActive || customizerState.orderProcessed) {
-      console.log('⚠️ Duplicate or invalid order message ignored');
       return;
     }
 
@@ -999,13 +966,24 @@
       const order = messageData.order || messageData || {};
       const premium = messageData.premium || false;
       
-      console.log('📦 Order data:', order);
-      console.log('💎 Premium:', premium);
+      // Debug: Log the order data to see the structure
+      console.log('🔍 Order data structure:', order);
+      console.log('🔍 Map style values:', {
+        mapstyle: order.mapstyle,
+        mapStyle: order.mapStyle,
+        'mapStyleDisplayNames[mapstyle]': mapStyleDisplayNames[order.mapstyle],
+        'mapStyleDisplayNames[mapStyle]': mapStyleDisplayNames[order.mapStyle]
+      });
+      console.log('🔍 Order ID values:', {
+        orderId: order.orderId,
+        id: order.id,
+        angularOrderId: order.angularOrderId,
+        messageId: messageData.id,
+        messageOrderId: messageData.orderId
+      });
       
       // Extract routes/cruise data
       const routes = order.routes || [];
-      
-      console.log('🚢 Routes data:', routes);
 
       // If no routes, treat as single product
       if (!routes.length) {
@@ -1015,7 +993,6 @@
 
       // Prepare all items for cart
       const items = routes.map(route => {
-        console.log('🚢 Processing route:', route);
         
         const properties = {
           // === VISIBLE in cart (customer-friendly) - EXACT FORMAT REQUESTED ===
@@ -1024,9 +1001,11 @@
           "Dates": formatCruiseDates(route.startDate || order.startDate, route.endDate || order.endDate),
           "Ports": formatPorts(route.departurePort || order.departurePort, route.arrivalPort || order.arrivalPort),
           "Frame Colour": order.frame || 'None',
+          "Map Style": mapStyleDisplayNames[order.mapstyle] || mapStyleDisplayNames[order.mapStyle] || order.mapstyle || order.mapStyle || 'None',
           
           // === HIDDEN from cart display (with underscore prefix) but included in order emails ===
           "_Premium": premium ? 'Yes' : 'No',
+          "_Order ID": order.orderId || order.id || order.angularOrderId || '',  // Capture Angular order ID
           "_Map Style": order.mapStyle || '',                   
           "_Map Text": order.mapText || '',                     
           "_Line Style": order.lineStyle || '',                
@@ -1050,6 +1029,7 @@
           "_Zoom": order.zoom || '',                           
           "_Message": order.message || '',
           "_Color": order.color || '',
+          "_Ship IMO": route.imo || '',  // Capture ship IMO number
           "_Route Details": `${route.cruise || ''} | ${route.departurePort || ''} to ${route.arrivalPort || ''} | ${route.startDate || ''} - ${route.endDate || ''}`
         };
 
@@ -1059,8 +1039,6 @@
             delete properties[key];
           }
         });
-
-        console.log("📦 Adding route to cart with properties:", properties);
 
         return {
           id: customizerConfig.selectedVariant.id,
@@ -1079,14 +1057,12 @@
         body: JSON.stringify({ items })
       })
       .then(response => {
-        console.log('📡 Cart add response status:', response.status);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
       })
       .then(data => {
-        console.log("✅ All routes added to cart successfully:", data);
         
         // Hide the variant color display in cart
         setTimeout(() => {
@@ -1102,13 +1078,11 @@
         setTimeout(redirectToCart, 300);
       })
       .catch(error => {
-        console.error("❌ Failed to add items to cart:", error);
         customizerState.orderProcessed = false;
         alert("Failed to add items to cart. Please try again.");
       });
 
     } catch (error) {
-      console.error("❌ Error in handleOrderSubmission:", error);
       customizerState.orderProcessed = false;
       alert("An error occurred while processing your order. Please try again.");
     }
@@ -1123,9 +1097,11 @@
       "Dates": formatCruiseDates(order.startDate, order.endDate),
       "Ports": formatPorts(order.departurePort, order.arrivalPort),
       "Frame Colour": order.frame || 'None',
+      "Map Style": mapStyleDisplayNames[order.mapstyle] || mapStyleDisplayNames[order.mapStyle] || order.mapstyle || order.mapStyle || 'None',
       
       // === HIDDEN from cart display (with underscore prefix) but included in order emails ===
       "_Premium": premium ? 'Yes' : 'No',
+      "_Angular Order ID": order.orderId || order.id || order.angularOrderId || '',  // Capture Angular order ID
       "_Map Style": order.mapStyle || '',                   
       "_Map Text": order.mapText || '',                     
       "_Line Style": order.lineStyle || '',                
@@ -1148,7 +1124,8 @@
       "_Orientation": order.orientation || '',             
       "_Zoom": order.zoom || '',                           
       "_Message": order.message || '',
-      "_Color": order.color || ''
+      "_Color": order.color || '',
+      "_Ship IMO": order.imo || ''  // Capture ship IMO number for single product
     };
 
     // Remove empty properties
@@ -1157,8 +1134,6 @@
         delete properties[key];
       }
     });
-
-    console.log("📦 Adding single product to cart");
 
     fetch('/cart/add.js', {
       method: 'POST',
@@ -1175,14 +1150,12 @@
       })
     })
     .then(response => {
-      console.log('📡 Cart add response status:', response.status);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
-      console.log("✅ Cart add successful:", data);
       
       // Hide the variant color display in cart
       setTimeout(() => {
@@ -1198,7 +1171,6 @@
       setTimeout(redirectToCart, 1500);
     })
     .catch(error => {
-      console.error("❌ Cart add failed:", error);
       customizerState.orderProcessed = false;
       alert("Failed to add item to cart. Please try again.");
     });
@@ -1208,7 +1180,6 @@
     const iframe = document.getElementById("customizerIframe");
     
     if (!iframe || !iframe.contentWindow) {
-      console.warn('⚠️ Iframe not ready for preset');
       return;
     }
 
@@ -1226,11 +1197,9 @@
     try {
       // Send only ONE message
       iframe.contentWindow.postMessage(singleMessage, "https://lankylemon-2fe9e.web.app");
-      console.log('📤 Single preset message sent:', singleMessage);
-      console.log('📤 Preset data:', preset);
       
     } catch (error) {
-      console.error('❌ Failed to send preset:', error);
+      // Silent error handling
     }
   }
 
@@ -1238,7 +1207,6 @@
     const iframe = document.getElementById("customizerIframe");
     
     if (!iframe || !iframe.contentWindow) {
-      console.warn('⚠️ Iframe not ready for initialization');
       return;
     }
 
@@ -1252,10 +1220,9 @@
     
     try {
       iframe.contentWindow.postMessage(initMessage, "https://lankylemon-2fe9e.web.app");
-      console.log('📤 Initialization message sent:', initMessage);
       
     } catch (error) {
-      console.error('❌ Failed to send initialization:', error);
+      // Silent error handling
     }
   }
 
@@ -1265,8 +1232,6 @@
       const newUrl = window.location.pathname + window.location.search.replace(/[?&]customizer=open/, '');
       history.replaceState(null, null, newUrl);
     }
-
-    console.log('✅ Refresh prevention system initialized');
   }
 
   /**
@@ -1304,7 +1269,6 @@
 
     // Only log if we actually hid something new
     if (hiddenCount > 0 && (!window.lastHiddenCount || window.lastHiddenCount !== hiddenCount)) {
-      console.log(`🚫 Hidden ${hiddenCount} color displays`);
       window.lastHiddenCount = hiddenCount;
     }
   }
@@ -1314,11 +1278,9 @@
    */
   function initializeCustomizer() {
     if (window.customizerInitialized) {
-      console.log('⚠️ Customizer already initialized');
       return;
     }
     
-    console.log("🚀 Initializing Enhanced Customizer");
     window.customizerInitialized = true;
 
     // Hide color displays immediately and on changes
@@ -1334,6 +1296,9 @@
 
     // Set up variant change listeners for frame selection
     setupVariantChangeListeners();
+    
+    // Set up frame selection change listeners
+    setupFrameSelectionListeners();
 
     // Calculate initial preset
     const initialVariant = customizerConfig.selectedVariant;
@@ -1347,13 +1312,10 @@
     // Button click handler
     const btn = document.getElementById("openCustomizerBtn");
     if (btn) {
-      console.log("✅ Button found");
       btn.addEventListener("click", function(e) {
         e.preventDefault();
         openCustomizer();
       });
-    } else {
-      console.error("❌ Button not found");
     }
 
     // Escape key handler
@@ -1368,24 +1330,17 @@
     
     // Universal message listener to catch ALL messages from Angular app
     window.addEventListener("message", (event) => {
-      if (event.origin === "https://lankylemon-2fe9e.web.app") {
-        console.log('🔍 RAW message from Angular app:', event.data);
-        console.log('🔍 Message origin:', event.origin);
-        console.log('🔍 Message source:', event.source);
-      }
+      // Silent message handling
     });
 
     // Frame change listener (logging only, no messages sent)
     document.addEventListener('frameChanged', (e) => {
-      console.log('🖼️ Frame changed:', e.detail);
-      
       // Update the selected variant based on frame change
       const currentVariant = customizerConfig.selectedVariant;
       if (currentVariant) {
         const newPreset = calculatePresetForVariant(currentVariant);
         // Don't send message - only log for debugging
         window.lastCalculatedPreset = newPreset;
-        console.log('🔄 Updated preset (not sent):', newPreset);
       }
     });
 
@@ -1401,7 +1356,6 @@
       btn.disabled = true;
     }
 
-    console.log("✅ Enhanced Customizer initialized");
   }
 
   // Initialize when ready
@@ -1430,11 +1384,7 @@
     testButton: () => {
       const btn = document.getElementById("openCustomizerBtn");
       if (btn) {
-        console.log("🔍 Button found:", btn);
-        console.log("🖱️ Triggering click...");
         btn.click();
-      } else {
-        console.error("❌ Button not found!");
       }
     }
   };
