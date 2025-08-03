@@ -43,8 +43,21 @@
               {%- endif -%}
           {%- endfor -%}
           
-          {%- comment -%} Show second image on hover (original behavior) {%- endcomment -%}
-          {{ product.images[1] | image_url: width: product.images[1].width | image_tag: loading:'lazy', width:product.images[1].width, height:product.images[1].height, class:'imgFt hover', sizes:sizes, widths:"180,320,400,560,740,900" }}
+          {%- if has_video and settings.show_video_on_hover -%}
+              {%- comment -%} Show video on hover {%- endcomment -%}
+              <div class="imgFt hover video-hover">
+                  {% capture video_tag %}{{ video_media | video_tag: loop:true, autoplay:false, muted:true, class:'hover-video', controls:false, playsinline:true }}{% endcapture %}
+                  {{ video_tag | replace: 'src="//', 'src="https://' }}
+                  <div class="video-play-overlay">
+                      <svg class="at-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                          <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 41.8 43.8 58.2 72.4 41.3l352-208c31.4-18.5 31.4-64.1 0-82.6z"/>
+                      </svg>
+                  </div>
+              </div>
+          {%- else -%}
+              {%- comment -%} Show second image on hover (original behavior) {%- endcomment -%}
+              {{ product.images[1] | image_url: width: product.images[1].width | image_tag: loading:'lazy', width:product.images[1].width, height:product.images[1].height, class:'imgFt hover', sizes:sizes, widths:"180,320,400,560,740,900" }}
+          {%- endif -%}
       {%- endif -%}                   
   </a>
    <div class="fl f-col pa lv_buttons" style="--icns:15px;">      
