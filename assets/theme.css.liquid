@@ -595,6 +595,13 @@ s.pr_price.cmpr {opacity:0.7}
 .video-hover.playing .hover-video {
   z-index: 3;
 }
+
+/* Ensure video hover container is visible on hover */
+.grid_img_wr:hover .video-hover {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: scale(1) !important;
+}
 @media only screen and (min-width:1025px){
 	{% if settings.secondary_image %}
 	.grid_img_wr:hover .primary { opacity:0; }
