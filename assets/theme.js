@@ -1220,16 +1220,22 @@ class VideoHoverHandler {
   setupVideoHoverListeners() {
     // Handle video hover functionality
     document.addEventListener('mouseenter', (e) => {
-      const videoHover = e.target.closest('.video-hover');
-      if (videoHover) {
-        this.handleVideoHover(videoHover, true);
+      // Check if e.target is a DOM element
+      if (e.target && typeof e.target.closest === 'function') {
+        const videoHover = e.target.closest('.video-hover');
+        if (videoHover) {
+          this.handleVideoHover(videoHover, true);
+        }
       }
     });
 
     document.addEventListener('mouseleave', (e) => {
-      const videoHover = e.target.closest('.video-hover');
-      if (videoHover) {
-        this.handleVideoHover(videoHover, false);
+      // Check if e.target is a DOM element
+      if (e.target && typeof e.target.closest === 'function') {
+        const videoHover = e.target.closest('.video-hover');
+        if (videoHover) {
+          this.handleVideoHover(videoHover, false);
+        }
       }
     });
   }
